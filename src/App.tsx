@@ -47,6 +47,11 @@ function App() {
   }, [push, playerCouples, playerChildren]);
 
   const handleAddChild = useCallback((child: ChildRelationship) => {
+    if (child.coupleId) {
+      const couple = playerCouples.find((c) => c.id === child.coupleId);
+      if (couple && (couple.person1Id === child.childId || couple.person2Id === child.childId)) return;
+    }
+    if (child.parentId && child.parentId === child.childId) return;
     push({ couples: playerCouples, children: [...playerChildren, child] });
   }, [push, playerCouples, playerChildren]);
 

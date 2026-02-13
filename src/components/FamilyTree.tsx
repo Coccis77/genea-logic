@@ -294,11 +294,20 @@ export function FamilyTree({
       if (!isConnectionMode) return;
       const color = modeColors[connectionMode] ?? '#c9a959';
 
-      // In child mode, allow dragging from a couple edge
+      // In child mode, allow dragging from a couple edge or union node
       if (connectionMode === 'child') {
         const coupleId = coupleIdFromEvent(e);
         if (coupleId) {
           dragCoupleRef.current = coupleId;
+          dragHandledRef.current = false;
+          showDragLine(e.clientX, e.clientY, color);
+          return;
+        }
+        const unionNodeEl = (e.target as HTMLElement).closest('.react-flow__node');
+        const unionNodeId = unionNodeEl?.getAttribute('data-id');
+        if (unionNodeId?.startsWith('union_')) {
+          const cId = unionNodeId.replace('union_', '');
+          dragCoupleRef.current = cId;
           dragHandledRef.current = false;
           showDragLine(e.clientX, e.clientY, color);
           return;
@@ -364,7 +373,7 @@ export function FamilyTree({
           return;
         }
 
-        if (connectionMode === 'child' && !pendingCoupleId) {
+        if (connectionMode === 'child') {
           const exists = children.some(
             (ch) => ch.parentId === startId && ch.childId === endId
           );
@@ -375,6 +384,7 @@ export function FamilyTree({
               childId: endId,
             });
           }
+          setPendingCoupleId(null);
           return;
         }
       }
@@ -437,6 +447,14 @@ export function FamilyTree({
 
       // Child mode
       if (connectionMode === 'child') {
+        // Clicking a union node selects that couple as parent
+        if (node.type === 'union') {
+          const coupleId = node.id.replace('union_', '');
+          setPendingParentId(null);
+          setPendingCoupleId((prev) => (prev === coupleId ? null : coupleId));
+          return;
+        }
+
         if (node.type !== 'person') return;
 
         // If a couple is selected, assign this person as child of that couple
