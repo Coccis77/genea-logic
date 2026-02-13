@@ -135,11 +135,12 @@ export function FamilyTree({
     if (svg) svg.style.display = 'none';
   }
 
-  const isConnectionMode =
+  const isCoupleMode =
     connectionMode === 'married' ||
     connectionMode === 'partnership' ||
-    connectionMode === 'hidden' ||
-    connectionMode === 'child';
+    connectionMode === 'hidden';
+
+  const isConnectionMode = isCoupleMode || connectionMode === 'child';
 
   // Person nodes (managed state for dragging)
   const initialPersonNodes: Node<PersonNodeData>[] = useMemo(
@@ -187,10 +188,11 @@ export function FamilyTree({
             isPending: couple.id === pendingCoupleId,
           },
           draggable: false,
+          className: connectionMode === 'remove' ? 'union-passthrough' : undefined,
         };
       })
       .filter(Boolean) as Node<UnionNodeData>[];
-  }, [couples, personNodes, pendingCoupleId]);
+  }, [couples, personNodes, pendingCoupleId, connectionMode]);
 
   // Add pending highlight to person nodes
   const displayPersonNodes = useMemo(
@@ -217,8 +219,7 @@ export function FamilyTree({
   // Build edges — highlight the pending couple edge in child mode
   const edges: Edge[] = useMemo(() => {
     const result: Edge[] = [];
-
-    // Build a position lookup from personNodes
+    const isRemoveMode = connectionMode === 'remove';
     const posOf = (id: string) => personNodes.find((n) => n.id === id)?.position;
 
     for (const couple of couples) {
@@ -227,6 +228,7 @@ export function FamilyTree({
       const p1Pos = posOf(couple.person1Id);
       const p2Pos = posOf(couple.person2Id);
       const p1Left = p1Pos && p2Pos ? p1Pos.x <= p2Pos.x : true;
+      const isClickable = connectionMode === 'child' || isRemoveMode;
       result.push({
         id: `couple_${couple.id}`,
         source: couple.person1Id,
@@ -235,11 +237,13 @@ export function FamilyTree({
         targetHandle: p1Left ? 'tl' : 'tr',
         type: 'default',
         label: coupleLabels[couple.type],
+        interactionWidth: isClickable ? 20 : undefined,
+        className: isRemoveMode ? 'edge-removable' : undefined,
         style: {
           stroke: color,
           strokeWidth: isPending ? 3 : 2,
           strokeDasharray: coupleDash[couple.type],
-          cursor: connectionMode === 'child' || connectionMode === 'remove' ? 'pointer' : undefined,
+          cursor: isClickable ? 'pointer' : undefined,
         },
         markerStart: { type: MarkerType.ArrowClosed, color },
         markerEnd: { type: MarkerType.ArrowClosed, color },
@@ -261,10 +265,12 @@ export function FamilyTree({
         sourceHandle: 'sb',
         targetHandle: 'tt',
         type: 'default',
+        interactionWidth: isRemoveMode ? 20 : undefined,
+        className: isRemoveMode ? 'edge-removable' : undefined,
         style: {
           stroke: '#c9a959',
           strokeWidth: 2,
-          cursor: connectionMode === 'remove' ? 'pointer' : undefined,
+          cursor: isRemoveMode ? 'pointer' : undefined,
         },
         markerEnd: { type: MarkerType.ArrowClosed, color: '#c9a959' },
       });
@@ -340,7 +346,7 @@ export function FamilyTree({
         setPendingPersonId(null);
         setPendingParentId(null);
 
-        if (connectionMode === 'married' || connectionMode === 'partnership' || connectionMode === 'hidden') {
+        if (isCoupleMode) {
           const exists = couples.some(
             (c) =>
               (c.person1Id === startId && c.person2Id === endId) ||
@@ -409,7 +415,7 @@ export function FamilyTree({
       if (connectionMode === 'select') return;
 
       // Couple modes: click person, click person
-      if (connectionMode === 'married' || connectionMode === 'partnership' || connectionMode === 'hidden') {
+      if (isCoupleMode) {
         if (node.type !== 'person') return;
 
         if (pendingPersonId === null) {
@@ -523,7 +529,7 @@ export function FamilyTree({
   const hintText = useMemo(() => {
     if (connectionMode === 'select')
       return 'Drag to move people.';
-    if (connectionMode === 'married' || connectionMode === 'partnership' || connectionMode === 'hidden') {
+    if (isCoupleMode) {
       if (dragSourceId) {
         const name = people.find((p) => p.id === dragSourceId)?.displayName ?? '';
         return `Release on another person to connect with ${name}.`;
@@ -576,6 +582,7 @@ export function FamilyTree({
         fitView
         fitViewOptions={{ padding: 0.3 }}
         nodesConnectable={false}
+        elevateEdgesOnSelect
         panOnDrag={isConnectionMode ? [1, 2] : true}
       >
         <Background color="#5c4a35" gap={20} size={1} />

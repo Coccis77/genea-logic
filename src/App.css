@@ -404,6 +404,13 @@
   background: var(--bg-light) !important;
 }
 
+/* Edge removable hover highlight */
+.react-flow__edge.edge-removable:hover .react-flow__edge-path {
+  stroke: #ff6b6b !important;
+  stroke-width: 3 !important;
+  filter: drop-shadow(0 0 4px rgba(255, 107, 107, 0.5));
+}
+
 /* ========== Person Node ========== */
 
 .person-node {
@@ -457,6 +464,12 @@
 
 .react-flow__node-union {
   pointer-events: all !important;
+}
+
+.react-flow__node-union.union-passthrough,
+.react-flow__node-union.union-passthrough * {
+  pointer-events: none !important;
+  cursor: default !important;
 }
 
 .union-node {
