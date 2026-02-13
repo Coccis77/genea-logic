@@ -1,0 +1,41 @@
+import { useState, useEffect } from 'react';
+import { Level } from '../types/level';
+
+interface UseLevelReturn {
+  level: Level | null;
+  loading: boolean;
+  error: string | null;
+}
+
+export function useLevel(levelId: string): UseLevelReturn {
+  const [level, setLevel] = useState<Level | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!levelId) {
+      setLevel(null);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    fetch(`/levels/${levelId}.json`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to load level: ${res.status}`);
+        return res.json();
+      })
+      .then((data: Level) => {
+        setLevel(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [levelId]);
+
+  return { level, loading, error };
+}
