@@ -11,7 +11,7 @@ const modes: { mode: ConnectionMode; label: string; arrow?: string; color?: stri
   { mode: 'select', label: 'Select' },
   { mode: 'married', label: 'Married', arrow: '\u2194', color: '#ffffff' },
   { mode: 'partnership', label: 'Partners', arrow: '\u2194', color: '#a855f7' },
-  { mode: 'hidden', label: 'Hidden', arrow: '\u2194', color: '#ef4444' },
+  { mode: 'hidden', label: 'Affair', arrow: '\u2194', color: '#ef4444' },
   { mode: 'child', label: 'Child', arrow: '\u2193', color: '#c9a959' },
   { mode: 'remove', label: 'Remove', arrow: '\u2715', color: '#ff6b6b' },
 ];

@@ -54,7 +54,7 @@ const coupleColors: Record<CoupleType, string> = {
 const coupleLabels: Record<CoupleType, string> = {
   married: 'Married',
   partnership: 'Partners',
-  hidden: 'Hidden',
+  hidden: 'Affair',
 };
 
 const coupleDash: Record<CoupleType, string | undefined> = {
@@ -355,19 +355,12 @@ export function FamilyTree({
         setPendingParentId(null);
 
         if (isCoupleMode) {
-          const exists = couples.some(
-            (c) =>
-              (c.person1Id === startId && c.person2Id === endId) ||
-              (c.person1Id === endId && c.person2Id === startId)
-          );
-          if (!exists) {
-            onAddCouple({
-              id: `couple_${Date.now()}`,
-              type: connectionMode as CoupleType,
-              person1Id: startId,
-              person2Id: endId,
-            });
-          }
+          onAddCouple({
+            id: `couple_${Date.now()}`,
+            type: connectionMode as CoupleType,
+            person1Id: startId,
+            person2Id: endId,
+          });
           return;
         }
 
@@ -431,19 +424,12 @@ export function FamilyTree({
         } else if (pendingPersonId === node.id) {
           setPendingPersonId(null);
         } else {
-          const exists = couples.some(
-            (c) =>
-              (c.person1Id === pendingPersonId && c.person2Id === node.id) ||
-              (c.person1Id === node.id && c.person2Id === pendingPersonId)
-          );
-          if (!exists) {
-            onAddCouple({
-              id: `couple_${Date.now()}`,
-              type: connectionMode as CoupleType,
-              person1Id: pendingPersonId,
-              person2Id: node.id,
-            });
-          }
+          onAddCouple({
+            id: `couple_${Date.now()}`,
+            type: connectionMode as CoupleType,
+            person1Id: pendingPersonId,
+            person2Id: node.id,
+          });
           setPendingPersonId(null);
         }
         return;

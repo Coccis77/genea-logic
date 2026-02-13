@@ -26,7 +26,24 @@ function App() {
   );
 
   const handleAddCouple = useCallback((couple: CoupleRelationship) => {
-    push({ couples: [...playerCouples, couple], children: playerChildren });
+    const existing = playerCouples.find(
+      (c) =>
+        (c.person1Id === couple.person1Id && c.person2Id === couple.person2Id) ||
+        (c.person1Id === couple.person2Id && c.person2Id === couple.person1Id)
+    );
+    if (existing) {
+      if (existing.type === couple.type) return; // same type, no-op
+      // Replace type and transfer child relationships to the new couple id
+      const newCouples = playerCouples.map((c) =>
+        c.id === existing.id ? { ...couple, id: existing.id } : c
+      );
+      const newChildren = playerChildren.map((ch) =>
+        ch.coupleId === existing.id ? { ...ch, coupleId: existing.id } : ch
+      );
+      push({ couples: newCouples, children: newChildren });
+    } else {
+      push({ couples: [...playerCouples, couple], children: playerChildren });
+    }
   }, [push, playerCouples, playerChildren]);
 
   const handleAddChild = useCallback((child: ChildRelationship) => {
