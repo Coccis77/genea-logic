@@ -390,6 +390,17 @@
 }
 
 /* ReactFlow overrides */
+
+/* Make edge interaction paths clickable (default visibleStroke ignores stroke-opacity:0) */
+.react-flow__edge-interaction {
+  pointer-events: stroke !important;
+}
+
+/* In remove mode, disable pointer events on nodes so clicks reach edges beneath them */
+.react-flow.remove-mode .react-flow__node {
+  pointer-events: none !important;
+}
+
 .react-flow__background {
   background-color: var(--bg-dark) !important;
 }
@@ -462,23 +473,12 @@
 
 /* ========== Union Node ========== */
 
-.react-flow__node-union {
-  pointer-events: all !important;
-}
-
-.react-flow__node-union.union-passthrough,
-.react-flow__node-union.union-passthrough * {
-  pointer-events: none !important;
-  cursor: default !important;
-}
-
 .union-node {
   width: 22px;
   height: 22px;
   border-radius: 50%;
   border: 2px solid var(--bg-dark);
   cursor: pointer;
-  pointer-events: all !important;
   transition: transform 0.15s, box-shadow 0.15s;
 }
 

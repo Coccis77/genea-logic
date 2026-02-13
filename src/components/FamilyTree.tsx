@@ -165,6 +165,7 @@ export function FamilyTree({
       if ('id' in change) return !String(change.id).startsWith('union_');
       return true;
     });
+    if (personChanges.length === 0) return;
     setPersonNodes((nds) => applyNodeChanges(personChanges, nds));
   }, []);
 
@@ -188,11 +189,10 @@ export function FamilyTree({
             isPending: couple.id === pendingCoupleId,
           },
           draggable: false,
-          className: connectionMode === 'remove' ? 'union-passthrough' : undefined,
         };
       })
       .filter(Boolean) as Node<UnionNodeData>[];
-  }, [couples, personNodes, pendingCoupleId, connectionMode]);
+  }, [couples, personNodes, pendingCoupleId]);
 
   // Add pending highlight to person nodes
   const displayPersonNodes = useMemo(
@@ -267,6 +267,14 @@ export function FamilyTree({
         type: 'default',
         interactionWidth: isRemoveMode ? 20 : undefined,
         className: isRemoveMode ? 'edge-removable' : undefined,
+        label: isRemoveMode ? '✕' : undefined,
+        labelStyle: isRemoveMode
+          ? { fill: '#ff6b6b', fontSize: 11, cursor: 'pointer' }
+          : undefined,
+        labelBgStyle: isRemoveMode
+          ? { fill: '#2a2118', fillOpacity: 0.85 }
+          : undefined,
+        labelBgPadding: isRemoveMode ? [6, 3] as [number, number] : undefined,
         style: {
           stroke: '#c9a959',
           strokeWidth: 2,
@@ -579,10 +587,10 @@ export function FamilyTree({
         onNodeClick={onNodeClick}
         onEdgeClick={onEdgeClick}
         nodeTypes={nodeTypes}
+        className={connectionMode === 'remove' ? 'remove-mode' : undefined}
         fitView
         fitViewOptions={{ padding: 0.3 }}
         nodesConnectable={false}
-        elevateEdgesOnSelect
         panOnDrag={isConnectionMode ? [1, 2] : true}
       >
         <Background color="#5c4a35" gap={20} size={1} />
