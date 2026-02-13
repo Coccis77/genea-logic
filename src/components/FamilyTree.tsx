@@ -38,6 +38,13 @@ const nodeTypes: NodeTypes = {
   union: UnionNode,
 };
 
+const modeColors: Record<string, string> = {
+  married: '#ffffff',
+  partnership: '#a855f7',
+  hidden: '#ef4444',
+  child: '#c9a959',
+};
+
 const coupleColors: Record<CoupleType, string> = {
   married: '#ffffff',
   partnership: '#a855f7',
@@ -97,6 +104,36 @@ export function FamilyTree({
   const [dragSourceId, setDragSourceId] = useState<string | null>(null);
   // Track whether drag created a connection (to suppress the subsequent click)
   const dragHandledRef = useRef(false);
+
+  // Drag line visual overlay (DOM-manipulated for performance)
+  const dragLineSvgRef = useRef<SVGSVGElement | null>(null);
+
+  function showDragLine(x: number, y: number, color: string) {
+    const svg = dragLineSvgRef.current;
+    if (!svg) return;
+    const line = svg.querySelector('line');
+    if (!line) return;
+    line.setAttribute('x1', String(x));
+    line.setAttribute('y1', String(y));
+    line.setAttribute('x2', String(x));
+    line.setAttribute('y2', String(y));
+    line.setAttribute('stroke', color);
+    svg.style.display = 'block';
+  }
+
+  function updateDragLine(x: number, y: number) {
+    const svg = dragLineSvgRef.current;
+    if (!svg) return;
+    const line = svg.querySelector('line');
+    if (!line) return;
+    line.setAttribute('x2', String(x));
+    line.setAttribute('y2', String(y));
+  }
+
+  function hideDragLine() {
+    const svg = dragLineSvgRef.current;
+    if (svg) svg.style.display = 'none';
+  }
 
   const isConnectionMode =
     connectionMode === 'married' ||
@@ -241,6 +278,7 @@ export function FamilyTree({
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       if (!isConnectionMode) return;
+      const color = modeColors[connectionMode] ?? '#c9a959';
 
       // In child mode, allow dragging from a couple edge
       if (connectionMode === 'child') {
@@ -248,6 +286,7 @@ export function FamilyTree({
         if (coupleId) {
           dragCoupleRef.current = coupleId;
           dragHandledRef.current = false;
+          showDragLine(e.clientX, e.clientY, color);
           return;
         }
       }
@@ -257,12 +296,15 @@ export function FamilyTree({
       dragStartRef.current = id;
       dragHandledRef.current = false;
       setDragSourceId(id);
+      showDragLine(e.clientX, e.clientY, color);
     },
     [isConnectionMode, connectionMode]
   );
 
   const handleMouseUp = useCallback(
     (e: React.MouseEvent) => {
+      hideDragLine();
+
       // Handle drag from couple edge → person
       const dragCouple = dragCoupleRef.current;
       dragCoupleRef.current = null;
@@ -339,10 +381,16 @@ export function FamilyTree({
     [connectionMode, couples, children, pendingCoupleId, onAddCouple, onAddChild]
   );
 
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!dragStartRef.current && !dragCoupleRef.current) return;
+    updateDragLine(e.clientX, e.clientY);
+  }, []);
+
   const handleMouseLeave = useCallback(() => {
     dragStartRef.current = null;
     dragCoupleRef.current = null;
     setDragSourceId(null);
+    hideDragLine();
   }, []);
 
   // ── Click-to-connect (click person, click person) ──
@@ -509,6 +557,7 @@ export function FamilyTree({
       className="family-tree"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <ConnectionToolbar
@@ -533,6 +582,20 @@ export function FamilyTree({
         <Controls />
       </ReactFlow>
       <div className="tree-hint">{hintText}</div>
+      <svg
+        ref={dragLineSvgRef}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 1000,
+          display: 'none',
+        }}
+      >
+        <line strokeWidth={2} strokeDasharray="6 4" />
+      </svg>
     </div>
   );
 }
