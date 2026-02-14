@@ -241,6 +241,9 @@
 }
 
 .document-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   font-size: 0.7rem;
   color: var(--accent-gold);
   text-transform: uppercase;
@@ -248,34 +251,47 @@
   font-weight: 600;
 }
 
+.document-icon {
+  font-size: 0.9rem;
+}
+
 .document-title {
   color: var(--text-primary);
 }
 
+/* --- Document content base --- */
+
 .document-content {
   flex: 1;
-  background: var(--paper-bg);
-  color: var(--paper-text);
   border-radius: 6px;
   padding: 1.25rem;
   overflow-y: auto;
+  position: relative;
+  background: var(--paper-bg);
+  color: var(--paper-text);
   border: 1px solid #d4c9a8;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.document-header {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(58, 46, 30, 0.15);
+}
+
 .document-content h3 {
-  margin: 0 0 0.25rem;
+  margin: 0;
   font-size: 1rem;
   color: var(--paper-text);
 }
 
 .document-type-label {
-  font-size: 0.75rem;
-  color: #7a6e58;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: #7a6e58;
 }
 
 .document-text {
@@ -285,6 +301,155 @@
   white-space: pre-wrap;
   margin: 0;
   color: var(--paper-text);
+}
+
+/* --- Official certificates (birth & marriage) --- */
+
+.document-content-birth_certificate,
+.document-content-marriage_certificate {
+  background: linear-gradient(170deg, #faf6e8 0%, #f0e8d0 100%);
+  border: 2px solid #b8a878;
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 4px rgba(184, 168, 120, 0.15);
+}
+
+.document-content-birth_certificate .document-header,
+.document-content-marriage_certificate .document-header {
+  text-align: center;
+  border-bottom: 2px double #b8a878;
+}
+
+.document-content-birth_certificate .document-type-label,
+.document-content-marriage_certificate .document-type-label {
+  color: #6b5b3a;
+  letter-spacing: 2px;
+  font-size: 0.65rem;
+}
+
+.document-content-birth_certificate .document-text,
+.document-content-marriage_certificate .document-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.document-content-marriage_certificate h3 {
+  font-style: italic;
+}
+
+/* --- Newspaper --- */
+
+.document-content-newspaper {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 22px,
+      rgba(58, 46, 30, 0.04) 22px,
+      rgba(58, 46, 30, 0.04) 23px
+    ),
+    linear-gradient(160deg, #efe6cc 0%, #e8dbb8 50%, #e0d4b0 100%);
+  border: 1px solid #c8b888;
+  box-shadow:
+    inset 0 2px 8px rgba(0, 0, 0, 0.12),
+    2px 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.document-content-newspaper .document-header {
+  text-align: center;
+  border-bottom: 3px double #3a2e1e;
+  padding-bottom: 0.6rem;
+}
+
+.document-content-newspaper .document-type-label {
+  color: #5a4a30;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+}
+
+.document-content-newspaper h3 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.document-content-newspaper .document-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* --- Census record --- */
+
+.document-content-census {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 25px,
+      rgba(100, 120, 160, 0.08) 25px,
+      rgba(100, 120, 160, 0.08) 26px
+    ),
+    linear-gradient(175deg, #f2f0ea 0%, #e8e4dc 100%);
+  border: 1px solid #a8a090;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.document-content-census .document-header {
+  border-bottom: 2px solid #5a5a6a;
+}
+
+.document-content-census .document-type-label {
+  color: #4a4a5a;
+  letter-spacing: 2px;
+}
+
+.document-content-census h3 {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.document-content-census .document-text {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.82rem;
+  line-height: 1.75;
+  letter-spacing: 0.3px;
+}
+
+/* --- Photo --- */
+
+.document-content-photo {
+  background: #f8f6f0;
+  border: 8px solid #e0dcd4;
+  box-shadow:
+    inset 0 0 20px rgba(0, 0, 0, 0.05),
+    2px 3px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+.document-content-photo .document-header {
+  border-bottom: none;
+  text-align: center;
+}
+
+.document-content-photo .document-text {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  text-align: center;
+  color: #5a5048;
+}
+
+/* --- Generic/other --- */
+
+.document-content-other {
+  background: linear-gradient(170deg, #f5eed6 0%, #ede4c8 100%);
 }
 
 /* ========== Progress Bar ========== */

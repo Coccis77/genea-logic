@@ -14,6 +14,15 @@ const typeLabels: Record<string, string> = {
   other: 'Document',
 };
 
+const typeIcons: Record<string, string> = {
+  birth_certificate: '\u{1F4DC}',
+  marriage_certificate: '\u{1F48D}',
+  newspaper: '\u{1F4F0}',
+  census: '\u{1F4CB}',
+  photo: '\u{1F4F7}',
+  other: '\u{1F4C4}',
+};
+
 export function DocumentViewer({ documents }: DocumentViewerProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedDoc = documents.find((d) => d.id === selectedId);
@@ -28,16 +37,21 @@ export function DocumentViewer({ documents }: DocumentViewerProps) {
             className={`document-item ${selectedId === doc.id ? 'active' : ''}`}
             onClick={() => setSelectedId(selectedId === doc.id ? null : doc.id)}
           >
-            <span className="document-type-badge">{typeLabels[doc.type] ?? doc.type}</span>
+            <span className="document-type-badge">
+              <span className="document-icon">{typeIcons[doc.type] ?? ''}</span>
+              {typeLabels[doc.type] ?? doc.type}
+            </span>
             <span className="document-title">{doc.title}</span>
           </button>
         ))}
       </div>
 
       {selectedDoc && (
-        <div className="document-content">
-          <h3>{selectedDoc.title}</h3>
-          <div className="document-type-label">{typeLabels[selectedDoc.type] ?? selectedDoc.type}</div>
+        <div className={`document-content document-content-${selectedDoc.type}`}>
+          <div className="document-header">
+            <div className="document-type-label">{typeLabels[selectedDoc.type] ?? selectedDoc.type}</div>
+            <h3>{selectedDoc.title}</h3>
+          </div>
           <pre className="document-text">{selectedDoc.content}</pre>
         </div>
       )}
