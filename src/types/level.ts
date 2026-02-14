@@ -1,9 +1,9 @@
 export interface Document {
   id: string;
-  type: 'birth_certificate' | 'marriage_certificate' | 'newspaper' | 'census' | 'photo' | 'other';
+  type: 'birth_certificate' | 'marriage_certificate' | 'newspaper' | 'census' | 'photo' | 'audio' | 'video' | 'other';
   title: string;
-  content: string;
-  imageUrl?: string;
+  content?: string;
+  mediaUrl?: string;
 }
 
 export type Gender = 'male' | 'female' | 'unknown';
