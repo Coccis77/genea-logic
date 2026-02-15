@@ -68,36 +68,39 @@ export function DocumentViewer({ documents }: DocumentViewerProps) {
     <div className="document-viewer">
       <h2 className="document-viewer-title">Documents & Clues</h2>
       <div className="document-list">
-        {documents.map((doc) => (
-          <button
-            key={doc.id}
-            className={`document-item ${selectedId === doc.id ? 'active' : ''}`}
-            onClick={() => setSelectedId(selectedId === doc.id ? null : doc.id)}
-          >
-            <span className="document-type-badge">
-              <span className="document-icon">{typeIcons[doc.type] ?? ''}</span>
-              {typeLabels[doc.type] ?? doc.type}
-            </span>
-            <span className="document-title">{doc.title}</span>
-          </button>
-        ))}
+        {documents.map((doc) => {
+          const isSelected = selectedId === doc.id;
+          return (
+            <div key={doc.id}>
+              <button
+                className={`document-item ${isSelected ? 'active' : ''}`}
+                onClick={() => setSelectedId(isSelected ? null : doc.id)}
+              >
+                <span className="document-type-badge">
+                  <span className="document-icon">{typeIcons[doc.type] ?? ''}</span>
+                  {typeLabels[doc.type] ?? doc.type}
+                </span>
+                <span className="document-title">{doc.title}</span>
+              </button>
+              {isSelected && (
+                <div className={`document-content document-content-${doc.type}`}>
+                  <div className="document-header">
+                    <div className="document-type-label">{typeLabels[doc.type] ?? doc.type}</div>
+                    <h3>{doc.title}</h3>
+                  </div>
+                  <DocumentMedia
+                    doc={doc}
+                    audioBlobUrl={audioBlobUrl}
+                    audioLoading={audioLoading}
+                    imageBlobUrl={imageBlobUrl}
+                    imageLoading={imageLoading}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
-
-      {selectedDoc && (
-        <div className={`document-content document-content-${selectedDoc.type}`}>
-          <div className="document-header">
-            <div className="document-type-label">{typeLabels[selectedDoc.type] ?? selectedDoc.type}</div>
-            <h3>{selectedDoc.title}</h3>
-          </div>
-          <DocumentMedia
-            doc={selectedDoc}
-            audioBlobUrl={audioBlobUrl}
-            audioLoading={audioLoading}
-            imageBlobUrl={imageBlobUrl}
-            imageLoading={imageLoading}
-          />
-        </div>
-      )}
     </div>
   );
 }

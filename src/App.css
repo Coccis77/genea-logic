@@ -187,7 +187,27 @@
   min-width: 280px;
   max-width: 420px;
   border-right: 1px solid var(--bg-light);
-  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.2) rgba(255,255,255,0.05);
+}
+
+.panel-left::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 6px;
+}
+
+.panel-left::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+}
+
+.panel-left::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
+}
+
+.panel-left::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.35);
 }
 
 .panel-right {
@@ -201,9 +221,6 @@
 
 .document-viewer {
   padding: 1rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .document-viewer-title {
@@ -262,10 +279,8 @@
 /* --- Document content base --- */
 
 .document-content {
-  flex: 1;
   border-radius: 6px;
   padding: 1.25rem;
-  overflow-y: auto;
   position: relative;
   background: var(--paper-bg);
   color: var(--paper-text);
