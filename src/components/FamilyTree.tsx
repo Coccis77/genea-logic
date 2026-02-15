@@ -21,6 +21,7 @@ import type {
   CoupleType,
   ConnectionMode,
 } from '../types/level';
+import { coupleColors } from '../constants';
 
 interface FamilyTreeProps {
   people: Person[];
@@ -36,19 +37,6 @@ interface FamilyTreeProps {
 const nodeTypes: NodeTypes = {
   person: PersonNode,
   union: UnionNode,
-};
-
-const modeColors: Record<string, string> = {
-  married: '#ffffff',
-  partnership: '#a855f7',
-  hidden: '#ef4444',
-  child: '#c9a959',
-};
-
-const coupleColors: Record<CoupleType, string> = {
-  married: '#ffffff',
-  partnership: '#a855f7',
-  hidden: '#ef4444',
 };
 
 const coupleLabels: Record<CoupleType, string> = {
@@ -292,7 +280,7 @@ export function FamilyTree({
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       if (!isConnectionMode) return;
-      const color = modeColors[connectionMode] ?? '#c9a959';
+      const color = coupleColors[connectionMode as CoupleType] ?? '#c9a959';
 
       // In child mode, allow dragging from a couple edge or union node
       if (connectionMode === 'child') {
@@ -395,7 +383,7 @@ export function FamilyTree({
       }
       // Released on same node — let onClick handle it (don't clear dragSourceId yet)
     },
-    [connectionMode, couples, children, pendingCoupleId, onAddCouple, onAddChild]
+    [connectionMode, children, onAddCouple, onAddChild]
   );
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {

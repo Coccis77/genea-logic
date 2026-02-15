@@ -33,14 +33,10 @@ function App() {
     );
     if (existing) {
       if (existing.type === couple.type) return; // same type, no-op
-      // Replace type and transfer child relationships to the new couple id
       const newCouples = playerCouples.map((c) =>
         c.id === existing.id ? { ...couple, id: existing.id } : c
       );
-      const newChildren = playerChildren.map((ch) =>
-        ch.coupleId === existing.id ? { ...ch, coupleId: existing.id } : ch
-      );
-      push({ couples: newCouples, children: newChildren });
+      push({ couples: newCouples, children: playerChildren });
     } else {
       push({ couples: [...playerCouples, couple], children: playerChildren });
     }
@@ -102,9 +98,9 @@ function App() {
         <button className="back-button" onClick={handleBackToMenu}>Back</button>
         <h1 className="level-title">{level.title}</h1>
         <div className="header-actions">
-          <button className="undo-btn" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">Undo</button>
-          <button className="redo-btn" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">Redo</button>
-          <button className="progress-toggle-btn" onClick={() => setShowProgress((v) => !v)} title={showProgress ? 'Hide progress' : 'Show progress'}>{showProgress ? 'Hide progress' : 'Show progress'}</button>
+          <button className="header-btn" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">Undo</button>
+          <button className="header-btn" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">Redo</button>
+          <button className="header-btn" onClick={() => setShowProgress((v) => !v)} title={showProgress ? 'Hide progress' : 'Show progress'}>{showProgress ? 'Hide progress' : 'Show progress'}</button>
         </div>
         <span className="level-timeframe">{level.timeframe}</span>
       </div>
