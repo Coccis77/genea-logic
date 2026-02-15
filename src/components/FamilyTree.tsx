@@ -43,12 +43,14 @@ const coupleLabels: Record<CoupleType, string> = {
   married: 'Married',
   partnership: 'Partners',
   hidden: 'Affair',
+  divorced: 'Divorced',
 };
 
 const coupleDash: Record<CoupleType, string | undefined> = {
   married: undefined,
   partnership: '8 4',
   hidden: '3 3',
+  divorced: '8 4',
 };
 
 /** Find the person node id from a DOM event target (walks up to ReactFlow's node wrapper). */
@@ -126,9 +128,11 @@ export function FamilyTree({
   const isCoupleMode =
     connectionMode === 'married' ||
     connectionMode === 'partnership' ||
-    connectionMode === 'hidden';
+    connectionMode === 'hidden' ||
+    connectionMode === 'divorced';
 
-  const isConnectionMode = isCoupleMode || connectionMode === 'child';
+  const isChildMode = connectionMode === 'child' || connectionMode === 'adopted';
+  const isConnectionMode = isCoupleMode || isChildMode;
 
   // Person nodes (managed state for dragging)
   const initialPersonNodes: Node<PersonNodeData>[] = useMemo(
@@ -216,7 +220,7 @@ export function FamilyTree({
       const p1Pos = posOf(couple.person1Id);
       const p2Pos = posOf(couple.person2Id);
       const p1Left = p1Pos && p2Pos ? p1Pos.x <= p2Pos.x : true;
-      const isClickable = connectionMode === 'child' || isRemoveMode;
+      const isClickable = isChildMode || isRemoveMode;
       result.push({
         id: `couple_${couple.id}`,
         source: couple.person1Id,
@@ -246,6 +250,11 @@ export function FamilyTree({
         ? `union_${child.coupleId}`
         : child.parentId ?? '';
       if (!source) continue;
+      const isAdopted = child.type === 'adopted';
+      const childLabel = isAdopted
+        ? (isRemoveMode ? 'Adopted ✕' : 'Adopted')
+        : (isRemoveMode ? '✕' : undefined);
+      const hasLabel = childLabel != null;
       result.push({
         id: `child_${child.id}`,
         source,
@@ -255,17 +264,18 @@ export function FamilyTree({
         type: 'default',
         interactionWidth: isRemoveMode ? 20 : undefined,
         className: isRemoveMode ? 'edge-removable' : undefined,
-        label: isRemoveMode ? '✕' : undefined,
-        labelStyle: isRemoveMode
-          ? { fill: '#ff6b6b', fontSize: 11, cursor: 'pointer' }
+        label: childLabel,
+        labelStyle: hasLabel
+          ? { fill: isRemoveMode && !isAdopted ? '#ff6b6b' : '#c9a959', fontSize: 11, cursor: isRemoveMode ? 'pointer' : undefined }
           : undefined,
-        labelBgStyle: isRemoveMode
+        labelBgStyle: hasLabel
           ? { fill: '#2a2118', fillOpacity: 0.85 }
           : undefined,
-        labelBgPadding: isRemoveMode ? [6, 3] as [number, number] : undefined,
+        labelBgPadding: hasLabel ? [6, 3] as [number, number] : undefined,
         style: {
           stroke: '#c9a959',
           strokeWidth: 2,
+          strokeDasharray: isAdopted ? '6 4' : undefined,
           cursor: isRemoveMode ? 'pointer' : undefined,
         },
         markerEnd: { type: MarkerType.ArrowClosed, color: '#c9a959' },
@@ -283,7 +293,7 @@ export function FamilyTree({
       const color = coupleColors[connectionMode as CoupleType] ?? '#c9a959';
 
       // In child mode, allow dragging from a couple edge or union node
-      if (connectionMode === 'child') {
+      if (isChildMode) {
         const coupleId = coupleIdFromEvent(e);
         if (coupleId) {
           dragCoupleRef.current = coupleId;
@@ -331,6 +341,7 @@ export function FamilyTree({
               id: `child_${Date.now()}`,
               coupleId: dragCouple,
               childId: endId,
+              type: connectionMode === 'adopted' ? 'adopted' : undefined,
             });
           }
         }
@@ -361,7 +372,7 @@ export function FamilyTree({
           return;
         }
 
-        if (connectionMode === 'child') {
+        if (isChildMode) {
           const exists = children.some(
             (ch) => ch.parentId === startId && ch.childId === endId
           );
@@ -370,6 +381,7 @@ export function FamilyTree({
               id: `child_${Date.now()}`,
               parentId: startId,
               childId: endId,
+              type: connectionMode === 'adopted' ? 'adopted' : undefined,
             });
           }
           setPendingCoupleId(null);
@@ -434,7 +446,7 @@ export function FamilyTree({
       }
 
       // Child mode
-      if (connectionMode === 'child') {
+      if (isChildMode) {
         // Clicking a union node selects that couple as parent
         if (node.type === 'union') {
           const coupleId = node.id.replace('union_', '');
@@ -455,6 +467,7 @@ export function FamilyTree({
               id: `child_${Date.now()}`,
               coupleId: pendingCoupleId,
               childId: node.id,
+              type: connectionMode === 'adopted' ? 'adopted' : undefined,
             });
           }
           return;
@@ -474,6 +487,7 @@ export function FamilyTree({
               id: `child_${Date.now()}`,
               parentId: pendingParentId,
               childId: node.id,
+              type: connectionMode === 'adopted' ? 'adopted' : undefined,
             });
           }
           setPendingParentId(null);
@@ -491,7 +505,7 @@ export function FamilyTree({
   // Handle edge clicks (child mode: select couple | remove mode: delete)
   const onEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
-      if (connectionMode === 'child') {
+      if (isChildMode) {
         if (edge.id.startsWith('couple_')) {
           const coupleId = edge.id.replace('couple_', '');
           setPendingParentId(null);
@@ -540,16 +554,17 @@ export function FamilyTree({
       }
       return 'Click a person or drag from one to another to create a link.';
     }
-    if (connectionMode === 'child') {
+    if (isChildMode) {
+      const childWord = connectionMode === 'adopted' ? 'an adopted child' : 'a child';
       if (pendingCoupleId)
-        return 'Now click a person to add them as a child of this couple.';
+        return `Now click a person to add them as ${childWord} of this couple.`;
       if (dragSourceId) {
         const name = people.find((p) => p.id === dragSourceId)?.displayName ?? '';
-        return `Release on a person to add them as a child of ${name}.`;
+        return `Release on a person to add them as ${childWord} of ${name}.`;
       }
       if (pendingParentId) {
         const name = people.find((p) => p.id === pendingParentId)?.displayName ?? '';
-        return `Click a person to add them as a child of ${name}.`;
+        return `Click a person to add them as ${childWord} of ${name}.`;
       }
       return 'Click a couple arrow, or click/drag from a parent to a child.';
     }

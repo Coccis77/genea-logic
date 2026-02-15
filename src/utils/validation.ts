@@ -38,6 +38,10 @@ export function validatePlayerState(
       const solChild = solution.children[i];
       if (solChild.childId !== playerChild.childId) continue;
 
+      const solType = solChild.type ?? 'biological';
+      const playerType = playerChild.type ?? 'biological';
+      if (solType !== playerType) continue;
+
       // Single-parent child
       if (solChild.parentId) {
         if (playerChild.parentId === solChild.parentId) {
