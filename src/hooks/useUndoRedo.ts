@@ -8,7 +8,7 @@ export interface GameState {
 
 const INITIAL_STATE: GameState = { couples: [], children: [] };
 
-export function useUndoRedo() {
+export function useUndoRedo(disabled?: boolean) {
   const [history, setHistory] = useState<GameState[]>([INITIAL_STATE]);
   const [index, setIndex] = useState(0);
   const indexRef = useRef(index);
@@ -37,6 +37,7 @@ export function useUndoRedo() {
 
   // Keyboard shortcuts
   useEffect(() => {
+    if (disabled) return;
     const handler = (e: KeyboardEvent) => {
       const mod = e.metaKey || e.ctrlKey;
       if (!mod || e.key.toLowerCase() !== 'z') return;
@@ -50,7 +51,7 @@ export function useUndoRedo() {
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [undo, redo]);
+  }, [undo, redo, disabled]);
 
   const reset = useCallback(() => {
     setHistory([INITIAL_STATE]);

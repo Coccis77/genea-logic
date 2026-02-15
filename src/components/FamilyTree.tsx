@@ -32,6 +32,7 @@ interface FamilyTreeProps {
   onDeleteCouple: (coupleId: string) => void;
   onDeleteChild: (childId: string) => void;
   onRemoveAll: () => void;
+  readOnly?: boolean;
 }
 
 const nodeTypes: NodeTypes = {
@@ -82,6 +83,7 @@ export function FamilyTree({
   onDeleteCouple,
   onDeleteChild,
   onRemoveAll,
+  readOnly,
 }: FamilyTreeProps) {
   const [connectionMode, setConnectionMode] = useState<ConnectionMode>('select');
   const [pendingPersonId, setPendingPersonId] = useState<string | null>(null);
@@ -576,34 +578,37 @@ export function FamilyTree({
   return (
     <div
       className="family-tree"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseDown={readOnly ? undefined : handleMouseDown}
+      onMouseUp={readOnly ? undefined : handleMouseUp}
+      onMouseMove={readOnly ? undefined : handleMouseMove}
+      onMouseLeave={readOnly ? undefined : handleMouseLeave}
     >
-      <ConnectionToolbar
-        mode={connectionMode}
-        onModeChange={handleModeChange}
-        onRemoveAll={onRemoveAll}
-        removeAllDisabled={couples.length === 0 && children.length === 0}
-      />
+      {!readOnly && (
+        <ConnectionToolbar
+          mode={connectionMode}
+          onModeChange={handleModeChange}
+          onRemoveAll={onRemoveAll}
+          removeAllDisabled={couples.length === 0 && children.length === 0}
+        />
+      )}
       <ReactFlow
         nodes={allNodes}
         edges={edges}
-        onNodesChange={handleNodesChange}
-        onNodeClick={onNodeClick}
-        onEdgeClick={onEdgeClick}
+        onNodesChange={readOnly ? undefined : handleNodesChange}
+        onNodeClick={readOnly ? undefined : onNodeClick}
+        onEdgeClick={readOnly ? undefined : onEdgeClick}
         nodeTypes={nodeTypes}
         className={connectionMode === 'remove' ? 'remove-mode' : undefined}
         fitView
         fitViewOptions={{ padding: 0.3 }}
         nodesConnectable={false}
-        panOnDrag={isConnectionMode ? [1, 2] : true}
+        nodesDraggable={!readOnly}
+        panOnDrag={isConnectionMode && !readOnly ? [1, 2] : true}
       >
         <Background color="#5c4a35" gap={20} size={1} />
         <Controls />
       </ReactFlow>
-      <div className="tree-hint">{hintText}</div>
+      {!readOnly && <div className="tree-hint">{hintText}</div>}
       <svg
         ref={dragLineSvgRef}
         style={{

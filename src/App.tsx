@@ -13,7 +13,8 @@ import './App.css';
 function App() {
   const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
   const [showProgress, setShowProgress] = useState(false);
-  const { state, push, undo, redo, canUndo, canRedo, reset } = useUndoRedo();
+  const [viewingTree, setViewingTree] = useState(false);
+  const { state, push, undo, redo, canUndo, canRedo, reset } = useUndoRedo(viewingTree);
 
   const playerCouples = state.couples;
   const playerChildren = state.children;
@@ -72,6 +73,7 @@ function App() {
 
   const handleBackToMenu = useCallback(() => {
     setSelectedLevelId(null);
+    setViewingTree(false);
     reset();
   }, [reset]);
 
@@ -98,8 +100,8 @@ function App() {
         <button className="back-button" onClick={handleBackToMenu}>Back</button>
         <h1 className="level-title">{level.title}</h1>
         <div className="header-actions">
-          <button className="header-btn" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">Undo</button>
-          <button className="header-btn" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">Redo</button>
+          <button className="header-btn" onClick={undo} disabled={!canUndo || viewingTree} title="Undo (Ctrl+Z)">Undo</button>
+          <button className="header-btn" onClick={redo} disabled={!canRedo || viewingTree} title="Redo (Ctrl+Shift+Z)">Redo</button>
           <button className="header-btn" onClick={() => setShowProgress((v) => !v)} title={showProgress ? 'Hide progress' : 'Show progress'}>{showProgress ? 'Hide progress' : 'Show progress'}</button>
         </div>
         <span className="level-timeframe">{level.timeframe}</span>
@@ -120,11 +122,18 @@ function App() {
             onDeleteCouple={handleDeleteCouple}
             onDeleteChild={handleDeleteChild}
             onRemoveAll={handleRemoveAll}
+            readOnly={viewingTree}
           />
         </div>
       </div>
 
-      {isWin && <WinOverlay levelTitle={level.title} onBackToMenu={handleBackToMenu} />}
+      {isWin && !viewingTree && (
+        <WinOverlay
+          levelTitle={level.title}
+          onBackToMenu={handleBackToMenu}
+          onViewTree={() => setViewingTree(true)}
+        />
+      )}
     </div>
   );
 }
