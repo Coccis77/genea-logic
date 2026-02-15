@@ -21,7 +21,7 @@ import type {
   CoupleType,
   ConnectionMode,
 } from '../types/level';
-import { coupleColors } from '../constants';
+import { coupleColors, coupleLabels, coupleDash } from '../constants';
 
 interface FamilyTreeProps {
   people: Person[];
@@ -38,20 +38,6 @@ interface FamilyTreeProps {
 const nodeTypes: NodeTypes = {
   person: PersonNode,
   union: UnionNode,
-};
-
-const coupleLabels: Record<CoupleType, string> = {
-  married: 'Married',
-  partnership: 'Partners',
-  hidden: 'Affair',
-  divorced: 'Divorced',
-};
-
-const coupleDash: Record<CoupleType, string | undefined> = {
-  married: undefined,
-  partnership: '8 4',
-  hidden: '3 3',
-  divorced: '8 4',
 };
 
 /** Find the person node id from a DOM event target (walks up to ReactFlow's node wrapper). */
@@ -135,6 +121,19 @@ export function FamilyTree({
 
   const isChildMode = connectionMode === 'child' || connectionMode === 'adopted';
   const isConnectionMode = isCoupleMode || isChildMode;
+
+  const addChild = useCallback(
+    (childId: string, coupleId?: string, parentId?: string) => {
+      onAddChild({
+        id: `child_${Date.now()}`,
+        coupleId,
+        parentId,
+        childId,
+        type: connectionMode === 'adopted' ? 'adopted' : undefined,
+      });
+    },
+    [connectionMode, onAddChild]
+  );
 
   // Person nodes (managed state for dragging)
   const initialPersonNodes: Node<PersonNodeData>[] = useMemo(
@@ -329,12 +328,7 @@ export function FamilyTree({
         const endId = personIdFromEvent(e);
         if (endId) {
           dragHandledRef.current = true;
-          onAddChild({
-            id: `child_${Date.now()}`,
-            coupleId: dragCouple,
-            childId: endId,
-            type: connectionMode === 'adopted' ? 'adopted' : undefined,
-          });
+          addChild(endId, dragCouple);
         }
         return;
       }
@@ -364,12 +358,7 @@ export function FamilyTree({
         }
 
         if (isChildMode) {
-          onAddChild({
-            id: `child_${Date.now()}`,
-            parentId: startId,
-            childId: endId,
-            type: connectionMode === 'adopted' ? 'adopted' : undefined,
-          });
+          addChild(endId, undefined, startId);
           setPendingCoupleId(null);
           return;
         }
@@ -381,7 +370,7 @@ export function FamilyTree({
       }
       // Released on same node — let onClick handle it (don't clear dragSourceId yet)
     },
-    [connectionMode, children, onAddCouple, onAddChild]
+    [connectionMode, children, onAddCouple, addChild]
   );
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -445,12 +434,7 @@ export function FamilyTree({
 
         // If a couple is selected, assign this person as child of that couple
         if (pendingCoupleId) {
-          onAddChild({
-            id: `child_${Date.now()}`,
-            coupleId: pendingCoupleId,
-            childId: node.id,
-            type: connectionMode === 'adopted' ? 'adopted' : undefined,
-          });
+          addChild(node.id, pendingCoupleId);
           return;
         }
 
@@ -460,12 +444,7 @@ export function FamilyTree({
             setPendingParentId(null);
             return;
           }
-          onAddChild({
-            id: `child_${Date.now()}`,
-            parentId: pendingParentId,
-            childId: node.id,
-            type: connectionMode === 'adopted' ? 'adopted' : undefined,
-          });
+          addChild(node.id, undefined, pendingParentId);
           setPendingParentId(null);
           return;
         }
@@ -475,7 +454,7 @@ export function FamilyTree({
         return;
       }
     },
-    [connectionMode, pendingPersonId, pendingCoupleId, pendingParentId, couples, children, onAddCouple, onAddChild]
+    [connectionMode, pendingPersonId, pendingCoupleId, pendingParentId, couples, children, onAddCouple, addChild]
   );
 
   // Handle edge clicks (child mode: select couple | remove mode: delete)

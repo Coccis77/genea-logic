@@ -1,19 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import type { Theme } from '../hooks/useTheme';
+import { themes } from '../constants';
 
 interface ThemePickerProps {
   theme: Theme;
   setTheme: (t: Theme) => void;
   variant?: 'dropdown' | 'inline';
 }
-
-const themes: { id: Theme; label: string; bg: string; accent: string }[] = [
-  { id: 'parchment', label: 'Parchment', bg: '#1a1510', accent: '#c9a959' },
-  { id: 'daylight', label: 'Daylight', bg: '#f7f2e4', accent: '#a07828' },
-  { id: 'midnight', label: 'Midnight', bg: '#0f172a', accent: '#fbbf24' },
-  { id: 'autumn', label: 'Autumn', bg: '#1c1412', accent: '#d4a030' },
-  { id: 'frost', label: 'Frost', bg: '#f1f5f9', accent: '#2563eb' },
-];
 
 export function ThemePicker({ theme, setTheme, variant = 'dropdown' }: ThemePickerProps) {
   const [open, setOpen] = useState(false);
