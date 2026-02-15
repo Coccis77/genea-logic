@@ -544,6 +544,11 @@
   background: var(--accent-green);
 }
 
+.progress-incorrect {
+  color: var(--accent-red);
+  font-size: 0.75rem;
+}
+
 /* ========== Connection Toolbar ========== */
 
 .connection-toolbar {

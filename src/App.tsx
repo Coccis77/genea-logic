@@ -19,7 +19,7 @@ function App() {
   const playerChildren = state.children;
 
   const { level, loading, error } = useLevel(selectedLevelId ?? '');
-  const { progress, matched, total, isWin } = useValidation(
+  const { progress, matched, total, incorrect, isWin } = useValidation(
     playerCouples,
     playerChildren,
     level?.solutionEncoded ?? null
@@ -110,7 +110,7 @@ function App() {
           <DocumentViewer documents={level.documents} />
         </div>
         <div className="panel-right">
-          {showProgress && <ProgressBar progress={progress} matched={matched} total={total} />}
+          {showProgress && <ProgressBar progress={progress} matched={matched} total={total} incorrect={incorrect} />}
           <FamilyTree
             people={level.initialPeople}
             couples={playerCouples}

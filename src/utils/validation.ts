@@ -12,7 +12,7 @@ export function validatePlayerState(
   playerCouples: CoupleRelationship[],
   playerChildren: ChildRelationship[],
   solution: Solution
-): { matched: number; total: number } {
+): { matched: number; total: number; incorrect: number } {
   const total = solution.couples.length + solution.children.length;
   let matched = 0;
 
@@ -64,7 +64,8 @@ export function validatePlayerState(
     }
   }
 
-  return { matched, total };
+  const incorrect = (playerCouples.length + playerChildren.length) - matched;
+  return { matched, total, incorrect };
 }
 
 export function calculateProgress(matched: number, total: number): number {
