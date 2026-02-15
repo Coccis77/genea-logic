@@ -13,7 +13,6 @@ const typeLabels: Record<string, string> = {
   census: 'Census Record',
   photo: 'Photograph',
   audio: 'Audio Recording',
-  video: 'Video Footage',
   other: 'Document',
 };
 
@@ -24,57 +23,46 @@ const typeIcons: Record<string, string> = {
   census: '\u{1F4CB}',
   photo: '\u{1F4F7}',
   audio: '\u{1F3B5}',
-  video: '\u{1F3AC}',
   other: '\u{1F4C4}',
 };
 
-function DocumentMedia({ doc, blobUrl, loading }: { doc: Document; blobUrl?: string; loading: boolean }) {
-  if (doc.type === 'audio') {
-    return (
-      <div className="document-media-audio">
-        {loading ? (
-          <p className="media-loading">Loading audio...</p>
-        ) : blobUrl ? (
-          <audio className="media-audio-player" controls src={blobUrl} />
-        ) : null}
-        {doc.content && <pre className="document-text">{doc.content}</pre>}
-      </div>
-    );
-  }
+function DocumentMedia({ doc, audioBlobUrl, audioLoading, imageBlobUrl, imageLoading }: {
+  doc: Document;
+  audioBlobUrl?: string;
+  audioLoading: boolean;
+  imageBlobUrl?: string;
+  imageLoading: boolean;
+}) {
+  const hasMedia = doc.imageUrl || doc.audioUrl;
+  if (!hasMedia && !doc.content) return null;
+  if (!hasMedia) return <pre className="document-text">{doc.content}</pre>;
 
-  if (doc.type === 'video') {
-    return (
-      <div className="document-media-video">
-        {loading ? (
-          <p className="media-loading">Loading video...</p>
-        ) : blobUrl ? (
-          <video className="media-video-player" controls src={blobUrl} />
-        ) : null}
-        {doc.content && <pre className="document-text">{doc.content}</pre>}
-      </div>
-    );
-  }
-
-  if (doc.type === 'photo' && doc.mediaUrl) {
-    return (
-      <div className="document-media-photo">
-        {loading ? (
+  return (
+    <div className="document-media">
+      {doc.imageUrl && (
+        imageLoading ? (
           <p className="media-loading">Loading image...</p>
-        ) : blobUrl ? (
-          <img className="media-photo-image" src={blobUrl} alt={doc.title} />
-        ) : null}
-        {doc.content && <pre className="document-text">{doc.content}</pre>}
-      </div>
-    );
-  }
-
-  return doc.content ? <pre className="document-text">{doc.content}</pre> : null;
+        ) : imageBlobUrl ? (
+          <img className="media-photo-image" src={imageBlobUrl} alt={doc.title} />
+        ) : null
+      )}
+      {doc.audioUrl && (
+        audioLoading ? (
+          <p className="media-loading">Loading audio...</p>
+        ) : audioBlobUrl ? (
+          <audio className="media-audio-player" controls src={audioBlobUrl} />
+        ) : null
+      )}
+      {doc.content && <pre className="document-text">{doc.content}</pre>}
+    </div>
+  );
 }
 
 export function DocumentViewer({ documents }: DocumentViewerProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedDoc = documents.find((d) => d.id === selectedId);
-  const { blobUrl, loading } = useMediaCache(selectedDoc?.mediaUrl);
+  const { blobUrl: audioBlobUrl, loading: audioLoading } = useMediaCache(selectedDoc?.audioUrl);
+  const { blobUrl: imageBlobUrl, loading: imageLoading } = useMediaCache(selectedDoc?.imageUrl);
 
   return (
     <div className="document-viewer">
@@ -101,7 +89,13 @@ export function DocumentViewer({ documents }: DocumentViewerProps) {
             <div className="document-type-label">{typeLabels[selectedDoc.type] ?? selectedDoc.type}</div>
             <h3>{selectedDoc.title}</h3>
           </div>
-          <DocumentMedia doc={selectedDoc} blobUrl={blobUrl} loading={loading} />
+          <DocumentMedia
+            doc={selectedDoc}
+            audioBlobUrl={audioBlobUrl}
+            audioLoading={audioLoading}
+            imageBlobUrl={imageBlobUrl}
+            imageLoading={imageLoading}
+          />
         </div>
       )}
     </div>

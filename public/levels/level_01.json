@@ -33,22 +33,23 @@
       "id": "doc_5",
       "type": "audio",
       "title": "Radio Broadcast — Miller Steel Strike, 1937",
-      "mediaUrl": "/media/level_01/001.mp3",
+      "audioUrl": "/media/level_01/001.mp3",
       "content": "Transcript: \"...and the workers at Miller Steel, led by union representative James E. Miller, have entered their third day of negotiations...\""
-    },
-    {
-      "id": "doc_6",
-      "type": "video",
-      "title": "Home Movie — Miller Family Picnic, 1955",
-      "mediaUrl": "/media/level_01/001.mp4",
-      "content": "Caption: Grainy 8mm footage shows the Miller family gathered at Schenley Park. Robert and Dorothy are seen with a young child."
     },
     {
       "id": "doc_7",
       "type": "photo",
       "title": "Photograph — Family Game Night, 1952",
-      "mediaUrl": "/media/level_01/001.png",
+      "imageUrl": "/media/level_01/001.png",
       "content": "A set of colorful dice on the table — the Millers were known for their weekly game nights."
+    },
+    {
+      "id": "doc_8",
+      "type": "other",
+      "title": "Oral History — Margaret Recalls Family Life",
+      "audioUrl": "/media/level_01/001.mp3",
+      "imageUrl": "/media/level_01/001.png",
+      "content": "Margaret describes growing up in the Miller household during the 1930s, accompanied by a family photograph from the era."
     }
   ],
 
