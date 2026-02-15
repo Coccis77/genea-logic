@@ -109,7 +109,7 @@ export function FamilyTree({
     line.setAttribute('y1', String(y));
     line.setAttribute('x2', String(x));
     line.setAttribute('y2', String(y));
-    line.setAttribute('stroke', color);
+    line.style.stroke = color;
     svg.style.display = 'block';
   }
 
@@ -218,7 +218,7 @@ export function FamilyTree({
 
     for (const couple of couples) {
       const isPending = couple.id === pendingCoupleId;
-      const color = isPending ? '#c9a959' : coupleColors[couple.type];
+      const color = isPending ? 'var(--color-child)' : coupleColors[couple.type];
       const p1Pos = posOf(couple.person1Id);
       const p2Pos = posOf(couple.person2Id);
       const p1Left = p1Pos && p2Pos ? p1Pos.x <= p2Pos.x : true;
@@ -242,7 +242,7 @@ export function FamilyTree({
         markerStart: { type: MarkerType.ArrowClosed, color },
         markerEnd: { type: MarkerType.ArrowClosed, color },
         labelStyle: { fill: color, fontWeight: 600, fontSize: 11 },
-        labelBgStyle: { fill: '#2a2118', fillOpacity: 0.85 },
+        labelBgStyle: { fill: 'var(--bg-medium)', fillOpacity: 0.85 },
         labelBgPadding: [6, 3] as [number, number],
       });
     }
@@ -253,10 +253,8 @@ export function FamilyTree({
         : child.parentId ?? '';
       if (!source) continue;
       const isAdopted = child.type === 'adopted';
-      const childLabel = isAdopted
-        ? (isRemoveMode ? 'Adopted ✕' : 'Adopted')
-        : (isRemoveMode ? '✕' : undefined);
-      const hasLabel = childLabel != null;
+      const baseLabel = isAdopted ? 'Adopted' : 'Child';
+      const childLabel = isRemoveMode ? `${baseLabel} ✕` : baseLabel;
       result.push({
         id: `child_${child.id}`,
         source,
@@ -267,20 +265,16 @@ export function FamilyTree({
         interactionWidth: isRemoveMode ? 20 : undefined,
         className: isRemoveMode ? 'edge-removable' : undefined,
         label: childLabel,
-        labelStyle: hasLabel
-          ? { fill: isRemoveMode && !isAdopted ? '#ff6b6b' : '#c9a959', fontSize: 11, cursor: isRemoveMode ? 'pointer' : undefined }
-          : undefined,
-        labelBgStyle: hasLabel
-          ? { fill: '#2a2118', fillOpacity: 0.85 }
-          : undefined,
-        labelBgPadding: hasLabel ? [6, 3] as [number, number] : undefined,
+        labelStyle: { fill: isRemoveMode && !isAdopted ? 'var(--color-remove)' : 'var(--color-child)', fontWeight: 600, fontSize: 11, cursor: isRemoveMode ? 'pointer' : undefined },
+        labelBgStyle: { fill: 'var(--bg-medium)', fillOpacity: 0.85 },
+        labelBgPadding: [6, 3] as [number, number],
         style: {
-          stroke: '#c9a959',
+          stroke: 'var(--color-child)',
           strokeWidth: 2,
           strokeDasharray: isAdopted ? '6 4' : undefined,
           cursor: isRemoveMode ? 'pointer' : undefined,
         },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#c9a959' },
+        markerEnd: { type: MarkerType.ArrowClosed, color: 'var(--color-child)' },
       });
     }
 
@@ -292,7 +286,7 @@ export function FamilyTree({
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
       if (!isConnectionMode) return;
-      const color = coupleColors[connectionMode as CoupleType] ?? '#c9a959';
+      const color = coupleColors[connectionMode as CoupleType] ?? 'var(--color-child)';
 
       // In child mode, allow dragging from a couple edge or union node
       if (isChildMode) {
@@ -335,17 +329,12 @@ export function FamilyTree({
         const endId = personIdFromEvent(e);
         if (endId) {
           dragHandledRef.current = true;
-          const exists = children.some(
-            (ch) => ch.coupleId === dragCouple && ch.childId === endId
-          );
-          if (!exists) {
-            onAddChild({
-              id: `child_${Date.now()}`,
-              coupleId: dragCouple,
-              childId: endId,
-              type: connectionMode === 'adopted' ? 'adopted' : undefined,
-            });
-          }
+          onAddChild({
+            id: `child_${Date.now()}`,
+            coupleId: dragCouple,
+            childId: endId,
+            type: connectionMode === 'adopted' ? 'adopted' : undefined,
+          });
         }
         return;
       }
@@ -375,17 +364,12 @@ export function FamilyTree({
         }
 
         if (isChildMode) {
-          const exists = children.some(
-            (ch) => ch.parentId === startId && ch.childId === endId
-          );
-          if (!exists) {
-            onAddChild({
-              id: `child_${Date.now()}`,
-              parentId: startId,
-              childId: endId,
-              type: connectionMode === 'adopted' ? 'adopted' : undefined,
-            });
-          }
+          onAddChild({
+            id: `child_${Date.now()}`,
+            parentId: startId,
+            childId: endId,
+            type: connectionMode === 'adopted' ? 'adopted' : undefined,
+          });
           setPendingCoupleId(null);
           return;
         }
@@ -461,17 +445,12 @@ export function FamilyTree({
 
         // If a couple is selected, assign this person as child of that couple
         if (pendingCoupleId) {
-          const exists = children.some(
-            (ch) => ch.coupleId === pendingCoupleId && ch.childId === node.id
-          );
-          if (!exists) {
-            onAddChild({
-              id: `child_${Date.now()}`,
-              coupleId: pendingCoupleId,
-              childId: node.id,
-              type: connectionMode === 'adopted' ? 'adopted' : undefined,
-            });
-          }
+          onAddChild({
+            id: `child_${Date.now()}`,
+            coupleId: pendingCoupleId,
+            childId: node.id,
+            type: connectionMode === 'adopted' ? 'adopted' : undefined,
+          });
           return;
         }
 
@@ -481,17 +460,12 @@ export function FamilyTree({
             setPendingParentId(null);
             return;
           }
-          const exists = children.some(
-            (ch) => ch.parentId === pendingParentId && ch.childId === node.id
-          );
-          if (!exists) {
-            onAddChild({
-              id: `child_${Date.now()}`,
-              parentId: pendingParentId,
-              childId: node.id,
-              type: connectionMode === 'adopted' ? 'adopted' : undefined,
-            });
-          }
+          onAddChild({
+            id: `child_${Date.now()}`,
+            parentId: pendingParentId,
+            childId: node.id,
+            type: connectionMode === 'adopted' ? 'adopted' : undefined,
+          });
           setPendingParentId(null);
           return;
         }
@@ -605,7 +579,7 @@ export function FamilyTree({
         nodesDraggable={!readOnly}
         panOnDrag={isConnectionMode && !readOnly ? [1, 2] : true}
       >
-        <Background color="#5c4a35" gap={20} size={1} />
+        <Background gap={20} size={1} />
         <Controls />
       </ReactFlow>
       {!readOnly && <div className="tree-hint">{hintText}</div>}

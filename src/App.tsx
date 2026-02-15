@@ -2,11 +2,13 @@ import { useState, useCallback } from 'react';
 import { useLevel } from './hooks/useLevel';
 import { useValidation } from './hooks/useValidation';
 import { useUndoRedo } from './hooks/useUndoRedo';
+import { useTheme } from './hooks/useTheme';
 import { DocumentViewer } from './components/DocumentViewer';
 import { FamilyTree } from './components/FamilyTree';
 import { ProgressBar } from './components/ProgressBar';
 import { LevelSelect } from './components/LevelSelect';
 import { WinOverlay } from './components/WinOverlay';
+import { ThemePicker } from './components/ThemePicker';
 import type { CoupleRelationship, ChildRelationship } from './types/level';
 import './App.css';
 
@@ -15,6 +17,7 @@ function App() {
   const [showProgress, setShowProgress] = useState(false);
   const [viewingTree, setViewingTree] = useState(false);
   const { state, push, undo, redo, canUndo, canRedo, reset } = useUndoRedo(viewingTree);
+  const { theme, setTheme } = useTheme();
 
   const playerCouples = state.couples;
   const playerChildren = state.children;
@@ -49,7 +52,21 @@ function App() {
       if (couple && (couple.person1Id === child.childId || couple.person2Id === child.childId)) return;
     }
     if (child.parentId && child.parentId === child.childId) return;
-    push({ couples: playerCouples, children: [...playerChildren, child] });
+    const existing = playerChildren.find(
+      (ch) =>
+        ch.childId === child.childId &&
+        ch.coupleId === child.coupleId &&
+        ch.parentId === child.parentId
+    );
+    if (existing) {
+      if (existing.type === child.type) return; // same type, no-op
+      const newChildren = playerChildren.map((ch) =>
+        ch.id === existing.id ? { ...child, id: existing.id } : ch
+      );
+      push({ couples: playerCouples, children: newChildren });
+    } else {
+      push({ couples: playerCouples, children: [...playerChildren, child] });
+    }
   }, [push, playerCouples, playerChildren]);
 
   const handleDeleteCouple = useCallback((coupleId: string) => {
@@ -78,7 +95,7 @@ function App() {
   }, [reset]);
 
   if (!selectedLevelId) {
-    return <LevelSelect onSelectLevel={setSelectedLevelId} />;
+    return <LevelSelect onSelectLevel={setSelectedLevelId} theme={theme} setTheme={setTheme} />;
   }
 
   if (loading) {
@@ -103,6 +120,7 @@ function App() {
           <button className="header-btn" onClick={undo} disabled={!canUndo || viewingTree} title="Undo (Ctrl+Z)">Undo</button>
           <button className="header-btn" onClick={redo} disabled={!canRedo || viewingTree} title="Redo (Ctrl+Shift+Z)">Redo</button>
           <button className="header-btn" onClick={() => setShowProgress((v) => !v)} title={showProgress ? 'Hide progress' : 'Show progress'}>{showProgress ? 'Hide progress' : 'Show progress'}</button>
+          <ThemePicker theme={theme} setTheme={setTheme} />
         </div>
         <span className="level-timeframe">{level.timeframe}</span>
       </div>
