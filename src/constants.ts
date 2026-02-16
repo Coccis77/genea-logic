@@ -4,21 +4,21 @@ import type { Theme } from './hooks/useTheme';
 export const coupleColors: Record<CoupleType, string> = {
   married: 'var(--color-married)',
   partnership: 'var(--color-partnership)',
-  hidden: 'var(--color-affair)',
+  affair: 'var(--color-affair)',
   divorced: 'var(--color-divorced)',
 };
 
 export const coupleLabels: Record<CoupleType, string> = {
   married: 'Married',
   partnership: 'Partners',
-  hidden: 'Affair',
+  affair: 'Affair',
   divorced: 'Divorced',
 };
 
 export const coupleDash: Record<CoupleType, string | undefined> = {
   married: undefined,
   partnership: '8 4',
-  hidden: '3 3',
+  affair: '3 3',
   divorced: '8 4',
 };
 

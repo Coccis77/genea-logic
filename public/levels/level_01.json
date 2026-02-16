@@ -4,97 +4,141 @@
   "difficulty": "easy",
   "timeframe": "1920-1960",
 
-  "documents": [
-    {
-      "id": "doc_1",
-      "type": "birth_certificate",
-      "title": "Birth Certificate — Robert Miller",
-      "content": "COMMONWEALTH OF PENNSYLVANIA\nBUREAU OF VITAL STATISTICS\n\nCERTIFICATE OF BIRTH\n\nName: Robert James Miller\nDate of Birth: March 15, 1925\nPlace of Birth: Pittsburgh, Allegheny County\n\nFather: James Edward Miller\n  Occupation: Steelworker\nMother: Helen Miller (née Smith)\n  Occupation: Homemaker\n\nAttending Physician: Dr. William Hayes"
-    },
-    {
-      "id": "doc_2",
-      "type": "marriage_certificate",
-      "title": "Marriage Certificate — Robert Miller & Dorothy Webb",
-      "content": "CERTIFICATE OF MARRIAGE\n\nThis certifies that on the 14th day of June, 1950,\nRobert James Miller (age 25)\nand\nDorothy Anne Webb (age 23)\nwere united in marriage at\nFirst Presbyterian Church, Pittsburgh, PA.\n\nWitnesses:\n  James E. Miller (father of the groom)\n  Margaret Miller (sister of the groom)"
-    },
-    {
-      "id": "doc_3",
-      "type": "newspaper",
-      "title": "Pittsburgh Gazette — Graduation Announcement",
-      "content": "PITTSBURGH GAZETTE — June 12, 1948\n\nLOCAL GRADUATES\n\nAmong this year's graduates of Carnegie Institute\nof Technology, we are proud to recognize:\n\nMargaret Louise Miller, daughter of James and\nHelen Miller of Squirrel Hill, who graduated\nwith honors in Mathematics. Miss Miller, 21,\nplans to pursue a teaching career."
-    },
-    {
-      "id": "doc_4",
-      "type": "census",
-      "title": "1930 Federal Census — Miller Household",
-      "content": "UNITED STATES CENSUS — 1930\nAllegheny County, Pennsylvania\nEnumeration District 42-108\n\nDwelling: 847 Murray Avenue, Squirrel Hill\n\nMiller, James E.    Head    Male    Age 33    Steelworker\nMiller, Helen S.    Wife    Female  Age 30    Homemaker\nMiller, Robert J.   Son     Male    Age 5     —\nMiller, Margaret L. Daughter Female Age 3     —\n\nOwns home, valued at $4,500\nMarried: 1924"
-    },
-    {
-      "id": "doc_5",
-      "type": "audio",
-      "title": "Radio Broadcast — Miller Steel Strike, 1937",
-      "audioUrl": "/media/level_01/001.mp3",
-      "content": "Transcript: \"...and the workers at Miller Steel, led by union representative James E. Miller, have entered their third day of negotiations...\""
-    },
-    {
-      "id": "doc_7",
-      "type": "photo",
-      "title": "Photograph — Family Game Night, 1952",
-      "imageUrl": "/media/level_01/001.png",
-      "content": "A set of colorful dice on the table — the Millers were known for their weekly game nights."
-    },
-    {
-      "id": "doc_8",
-      "type": "other",
-      "title": "Oral History — Margaret Recalls Family Life",
-      "audioUrl": "/media/level_01/001.mp3",
-      "imageUrl": "/media/level_01/001.png",
-      "content": "Margaret describes growing up in the Miller household during the 1930s, accompanied by a family photograph from the era."
-    }
-  ],
+  "documents": [],
 
   "initialPeople": [
     {
+      "id": "jack",
+      "displayName": "Jack D",
+      "knownFacts": ["male"],
+      "position": { "x": 560, "y": 280 },
+      "gender": "male"
+    },
+    {
+      "id": "sophie",
+      "displayName": "Sophie Martin",
+      "knownFacts": ["female"],
+      "position": { "x": 70, "y": 290 },
+      "gender": "female"
+    },
+    {
+      "id": "harry",
+      "displayName": "Harry Lewis",
+      "knownFacts": ["male"],
+      "position": { "x": 530, "y": 60 },
+      "gender": "male"
+    },
+    {
+      "id": "lisa_w",
+      "displayName": "Lisa Williams",
+      "knownFacts": ["female"],
+      "position": { "x": 550, "y": 520 },
+      "gender": "female"
+    },
+    {
+      "id": "john",
+      "displayName": "John",
+      "knownFacts": ["male"],
+      "position": { "x": 810, "y": 510 },
+      "gender": "male"
+    },
+    {
+      "id": "tom",
+      "displayName": "Tom",
+      "knownFacts": ["male"],
+      "position": { "x": 290, "y": 520 },
+      "gender": "male"
+    },
+    {
+      "id": "ann",
+      "displayName": "Ann",
+      "knownFacts": ["female"],
+      "position": { "x": 790, "y": 50 },
+      "gender": "female"
+    },
+    {
+      "id": "marie",
+      "displayName": "Marie Martin",
+      "knownFacts": ["female"],
+      "position": { "x": 1060, "y": 280 },
+      "gender": "female"
+    },
+    {
+      "id": "louise",
+      "displayName": "Louise",
+      "knownFacts": ["female"],
+      "position": { "x": 50, "y": 50 },
+      "gender": "female"
+    },
+    {
+      "id": "lucy",
+      "displayName": "Lucy",
+      "knownFacts": ["female"],
+      "position": { "x": 810, "y": 280 },
+      "gender": "female"
+    },
+    {
+      "id": "laura",
+      "displayName": "Laura",
+      "knownFacts": ["female"],
+      "position": { "x": 1310, "y": 510 },
+      "gender": "female"
+    },
+    {
+      "id": "henry",
+      "displayName": "Henry",
+      "knownFacts": ["male"],
+      "position": { "x": 1300, "y": 60 },
+      "gender": "male"
+    },
+    {
+      "id": "ben",
+      "displayName": "Ben Miller",
+      "knownFacts": ["male"],
+      "position": { "x": 50, "y": 520 },
+      "gender": "male"
+    },
+    {
+      "id": "jane",
+      "displayName": "Jane",
+      "knownFacts": ["female"],
+      "position": { "x": 1310, "y": 280 },
+      "gender": "female"
+    },
+    {
+      "id": "lisa",
+      "displayName": "Lisa",
+      "knownFacts": ["female"],
+      "position": { "x": 1050, "y": 50 },
+      "gender": "female"
+    },
+    {
+      "id": "andrew",
+      "displayName": "Andrew",
+      "knownFacts": ["male"],
+      "position": { "x": 300, "y": 280 },
+      "gender": "male"
+    },
+    {
+      "id": "annie",
+      "displayName": "Annie",
+      "knownFacts": ["female"],
+      "position": { "x": 1060, "y": 520 },
+      "gender": "female"
+    },
+    {
       "id": "james",
-      "displayName": "James Miller",
-      "knownFacts": ["male", "steelworker"],
-      "position": { "x": 100, "y": 50 },
+      "displayName": "James",
+      "knownFacts": ["male"],
+      "position": { "x": 280, "y": 60 },
       "gender": "male"
-    },
-    {
-      "id": "helen",
-      "displayName": "Helen Smith",
-      "knownFacts": ["female", "née Smith"],
-      "position": { "x": 400, "y": 50 },
-      "gender": "female"
-    },
-    {
-      "id": "robert",
-      "displayName": "Robert Miller",
-      "knownFacts": ["male", "born 1925"],
-      "position": { "x": 50, "y": 300 },
-      "gender": "male"
-    },
-    {
-      "id": "margaret",
-      "displayName": "Margaret Miller",
-      "knownFacts": ["female", "graduated 1948"],
-      "position": { "x": 300, "y": 300 },
-      "gender": "female"
-    },
-    {
-      "id": "dorothy",
-      "displayName": "Dorothy Webb",
-      "knownFacts": ["female", "married 1950"],
-      "position": { "x": 550, "y": 300 },
-      "gender": "female"
     }
   ],
 
-  "solutionEncoded": "eyJjb3VwbGVzIjpbeyJpZCI6InNvbF9jMSIsInR5cGUiOiJtYXJyaWVkIiwicGVyc29uMUlkIjoiamFtZXMiLCJwZXJzb24ySWQiOiJoZWxlbiJ9LHsiaWQiOiJzb2xfYzIiLCJ0eXBlIjoibWFycmllZCIsInBlcnNvbjFJZCI6InJvYmVydCIsInBlcnNvbjJJZCI6ImRvcm90aHkifV0sImNoaWxkcmVuIjpbeyJpZCI6InNvbF9jaDEiLCJjb3VwbGVJZCI6InNvbF9jMSIsImNoaWxkSWQiOiJyb2JlcnQifSx7ImlkIjoic29sX2NoMiIsImNvdXBsZUlkIjoic29sX2MxIiwiY2hpbGRJZCI6Im1hcmdhcmV0In1dfQ==",
+  "solutionEncoded": "eyJjb3VwbGVzIjpbeyJpZCI6InNvbF9jMSIsInR5cGUiOiJtYXJyaWVkIiwicGVyc29uMUlkIjoiamFjayIsInBlcnNvbjJJZCI6InNvcGhpZSJ9LHsiaWQiOiJzb2xfYzIiLCJ0eXBlIjoiYWZmYWlyIiwicGVyc29uMUlkIjoiaGFycnkiLCJwZXJzb24ySWQiOiJzb3BoaWUifSx7ImlkIjoic29sX2MzIiwidHlwZSI6Im1hcnJpZWQiLCJwZXJzb24xSWQiOiJoYXJyeSIsInBlcnNvbjJJZCI6Imxpc2FfdyJ9LHsiaWQiOiJzb2xfYzQiLCJ0eXBlIjoicGFydG5lcnNoaXAiLCJwZXJzb24xSWQiOiJsb3Vpc2UiLCJwZXJzb24ySWQiOiJiZW4ifSx7ImlkIjoic29sX2M1IiwidHlwZSI6ImRpdm9yY2VkIiwicGVyc29uMUlkIjoiaGVucnkiLCJwZXJzb24ySWQiOiJqYW5lIn1dLCJjaGlsZHJlbiI6W3siaWQiOiJzb2xfY2gxIiwiY291cGxlSWQiOiJzb2xfYzEiLCJjaGlsZElkIjoiam9obiIsInR5cGUiOiJiaW9sb2dpY2FsIn0seyJpZCI6InNvbF9jaDIiLCJjb3VwbGVJZCI6InNvbF9jMSIsImNoaWxkSWQiOiJ0b20iLCJ0eXBlIjoiYmlvbG9naWNhbCJ9LHsiaWQiOiJzb2xfY2gzIiwiY291cGxlSWQiOiJzb2xfYzEiLCJjaGlsZElkIjoiYW5uIiwidHlwZSI6ImJpb2xvZ2ljYWwifSx7ImlkIjoic29sX2NoNCIsImNvdXBsZUlkIjoic29sX2MyIiwiY2hpbGRJZCI6Im1hcmllIiwidHlwZSI6ImJpb2xvZ2ljYWwifSx7ImlkIjoic29sX2NoNSIsImNvdXBsZUlkIjoic29sX2MzIiwiY2hpbGRJZCI6ImxvdWlzZSIsInR5cGUiOiJiaW9sb2dpY2FsIn0seyJpZCI6InNvbF9jaDYiLCJjb3VwbGVJZCI6InNvbF9jMyIsImNoaWxkSWQiOiJsdWN5IiwidHlwZSI6ImJpb2xvZ2ljYWwifSx7ImlkIjoic29sX2NoNyIsImNvdXBsZUlkIjoic29sX2MzIiwiY2hpbGRJZCI6ImxhdXJhIiwidHlwZSI6ImJpb2xvZ2ljYWwifSx7ImlkIjoic29sX2NoOCIsImNvdXBsZUlkIjoic29sX2MzIiwiY2hpbGRJZCI6ImhlbnJ5IiwidHlwZSI6ImJpb2xvZ2ljYWwifSx7ImlkIjoic29sX2NoOSIsImNvdXBsZUlkIjoic29sX2M0IiwiY2hpbGRJZCI6Imxpc2EiLCJ0eXBlIjoiYmlvbG9naWNhbCJ9LHsiaWQiOiJzb2xfY2gxMCIsImNvdXBsZUlkIjoic29sX2M0IiwiY2hpbGRJZCI6ImFuZHJldyIsInR5cGUiOiJiaW9sb2dpY2FsIn0seyJpZCI6InNvbF9jaDExIiwicGFyZW50SWQiOiJsYXVyYSIsImNoaWxkSWQiOiJhbm5pZSIsInR5cGUiOiJhZG9wdGVkIn0seyJpZCI6InNvbF9jaDEyIiwiY291cGxlSWQiOiJzb2xfYzUiLCJjaGlsZElkIjoiamFtZXMiLCJ0eXBlIjoiYmlvbG9naWNhbCJ9XX0=",
 
   "validationRules": {
-    "requiredRelationships": 4,
+    "requiredRelationships": 17,
     "totalPoints": 100
   }
 }

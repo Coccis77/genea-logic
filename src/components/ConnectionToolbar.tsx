@@ -11,7 +11,7 @@ const modes: { mode: ConnectionMode; label: string; arrow?: string; color?: stri
   { mode: 'select', label: 'Select', tutorialId: 'toolbar-select' },
   { mode: 'married', label: 'Married', arrow: '\u2194', color: 'var(--color-married)', tutorialId: 'toolbar-married' },
   { mode: 'partnership', label: 'Partners', arrow: '\u2194', color: 'var(--color-partnership)' },
-  { mode: 'hidden', label: 'Affair', arrow: '\u2194', color: 'var(--color-affair)' },
+  { mode: 'affair', label: 'Affair', arrow: '\u2194', color: 'var(--color-affair)' },
   { mode: 'divorced', label: 'Divorced', arrow: '\u2194', color: 'var(--color-divorced)' },
   { mode: 'child', label: 'Child', arrow: '\u2193', color: 'var(--color-child)', tutorialId: 'toolbar-child' },
   { mode: 'adopted', label: 'Adopted', arrow: '\u2193', color: 'var(--color-child)' },

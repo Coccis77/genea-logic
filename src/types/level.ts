@@ -17,7 +17,7 @@ export interface Person {
   gender: Gender;
 }
 
-export type CoupleType = 'married' | 'partnership' | 'hidden' | 'divorced';
+export type CoupleType = 'married' | 'partnership' | 'affair' | 'divorced';
 
 export interface CoupleRelationship {
   id: string;
@@ -57,4 +57,4 @@ export interface Level {
   validationRules: ValidationRules;
 }
 
-export type ConnectionMode = 'select' | 'married' | 'partnership' | 'hidden' | 'divorced' | 'child' | 'adopted' | 'remove';
+export type ConnectionMode = 'select' | 'married' | 'partnership' | 'affair' | 'divorced' | 'child' | 'adopted' | 'remove';

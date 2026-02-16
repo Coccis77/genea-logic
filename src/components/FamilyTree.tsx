@@ -116,7 +116,7 @@ export function FamilyTree({
   const isCoupleMode =
     connectionMode === 'married' ||
     connectionMode === 'partnership' ||
-    connectionMode === 'hidden' ||
+    connectionMode === 'affair' ||
     connectionMode === 'divorced';
 
   const isChildMode = connectionMode === 'child' || connectionMode === 'adopted';
