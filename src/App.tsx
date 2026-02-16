@@ -9,6 +9,7 @@ import { ProgressBar } from './components/ProgressBar';
 import { LevelSelect } from './components/LevelSelect';
 import { WinOverlay } from './components/WinOverlay';
 import { ThemePicker } from './components/ThemePicker';
+import { Tutorial } from './components/Tutorial';
 import type { CoupleRelationship, ChildRelationship } from './types/level';
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
   const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
   const [showProgress, setShowProgress] = useState(false);
   const [viewingTree, setViewingTree] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
   const { state, push, undo, redo, canUndo, canRedo, reset } = useUndoRedo(viewingTree);
   const { theme, setTheme } = useTheme();
 
@@ -119,14 +121,15 @@ function App() {
         <div className="header-actions">
           <button className="header-btn" onClick={undo} disabled={!canUndo || viewingTree} title="Undo (Ctrl+Z)">Undo</button>
           <button className="header-btn" onClick={redo} disabled={!canRedo || viewingTree} title="Redo (Ctrl+Shift+Z)">Redo</button>
-          <button className="header-btn" onClick={() => setShowProgress((v) => !v)} title={showProgress ? 'Hide progress' : 'Show progress'}>{showProgress ? 'Hide progress' : 'Show progress'}</button>
+          <button className="header-btn" onClick={() => setShowProgress((v) => !v)} title={showProgress ? 'Hide progress' : 'Show progress'} data-tutorial-id="btn-show-progress">{showProgress ? 'Hide progress' : 'Show progress'}</button>
+          <button className="header-btn" onClick={() => setShowTutorial(true)} title="Tutorial">Tutorial</button>
           <ThemePicker theme={theme} setTheme={setTheme} />
         </div>
         <span className="level-timeframe">{level.timeframe}</span>
       </div>
 
       <div className="game-content">
-        <div className="panel-left">
+        <div className="panel-left" data-tutorial-id="panel-left">
           <DocumentViewer documents={level.documents} />
         </div>
         <div className="panel-right">
@@ -151,6 +154,10 @@ function App() {
           onBackToMenu={handleBackToMenu}
           onViewTree={() => setViewingTree(true)}
         />
+      )}
+
+      {showTutorial && (
+        <Tutorial onDismiss={() => setShowTutorial(false)} />
       )}
     </div>
   );

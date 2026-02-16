@@ -7,13 +7,13 @@ interface ConnectionToolbarProps {
   removeAllDisabled: boolean;
 }
 
-const modes: { mode: ConnectionMode; label: string; arrow?: string; color?: string }[] = [
-  { mode: 'select', label: 'Select' },
-  { mode: 'married', label: 'Married', arrow: '\u2194', color: 'var(--color-married)' },
+const modes: { mode: ConnectionMode; label: string; arrow?: string; color?: string; tutorialId?: string }[] = [
+  { mode: 'select', label: 'Select', tutorialId: 'toolbar-select' },
+  { mode: 'married', label: 'Married', arrow: '\u2194', color: 'var(--color-married)', tutorialId: 'toolbar-married' },
   { mode: 'partnership', label: 'Partners', arrow: '\u2194', color: 'var(--color-partnership)' },
   { mode: 'hidden', label: 'Affair', arrow: '\u2194', color: 'var(--color-affair)' },
   { mode: 'divorced', label: 'Divorced', arrow: '\u2194', color: 'var(--color-divorced)' },
-  { mode: 'child', label: 'Child', arrow: '\u2193', color: 'var(--color-child)' },
+  { mode: 'child', label: 'Child', arrow: '\u2193', color: 'var(--color-child)', tutorialId: 'toolbar-child' },
   { mode: 'adopted', label: 'Adopted', arrow: '\u2193', color: 'var(--color-child)' },
   { mode: 'remove', label: 'Remove', arrow: '\u2715', color: 'var(--color-remove)' },
 ];
@@ -26,6 +26,7 @@ export function ConnectionToolbar({ mode, onModeChange, onRemoveAll, removeAllDi
           key={m.mode}
           className={`toolbar-btn ${mode === m.mode ? 'toolbar-btn-active' : ''}`}
           onClick={() => onModeChange(m.mode)}
+          {...(m.tutorialId ? { 'data-tutorial-id': m.tutorialId } : {})}
         >
           {m.arrow && (
             <span className="toolbar-arrow" style={{ color: m.color }}>

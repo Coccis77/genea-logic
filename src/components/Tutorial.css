@@ -1,0 +1,121 @@
+/* ========== Tutorial Overlay ========== */
+
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  pointer-events: auto;
+}
+
+.tutorial-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.tutorial-backdrop path {
+  fill: rgba(0, 0, 0, 0.6);
+}
+
+/* ========== Tooltip ========== */
+
+.tutorial-tooltip {
+  position: fixed;
+  max-width: 340px;
+  min-width: 240px;
+  background: var(--bg-medium);
+  border: 2px solid var(--accent-gold);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 0 24px var(--accent-gold-glow), 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 251;
+}
+
+/* Arrow triangles */
+
+.tutorial-tooltip-bottom::before,
+.tutorial-tooltip-right::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.tutorial-tooltip-bottom::before {
+  top: -8px;
+  left: var(--arrow-left, 50%);
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--accent-gold);
+}
+
+.tutorial-tooltip-right::before {
+  left: -8px;
+  top: var(--arrow-top, 50%);
+  transform: translateY(-50%);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--accent-gold);
+}
+
+/* ========== Tooltip Content ========== */
+
+.tutorial-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin: 0 0 0.4rem;
+}
+
+.tutorial-message {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 0.75rem;
+}
+
+/* ========== Footer (Skip / Counter / Next) ========== */
+
+.tutorial-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tutorial-btn-skip {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0.3em 0.5em;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+
+.tutorial-btn-skip:hover {
+  opacity: 1;
+}
+
+.tutorial-step-counter {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.tutorial-btn-next {
+  background: var(--accent-gold);
+  color: var(--bg-dark);
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4em 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+
+.tutorial-btn-next:hover {
+  filter: brightness(1.1);
+}
