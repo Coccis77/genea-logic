@@ -28,6 +28,12 @@ export function useLevel(levelId: string): UseLevelReturn {
         return res.json();
       })
       .then((data: Level) => {
+        const base = import.meta.env.BASE_URL;
+        data.documents = data.documents.map((doc) => ({
+          ...doc,
+          audioUrl: doc.audioUrl ? `${base}${doc.audioUrl.replace(/^\//, '')}` : undefined,
+          imageUrl: doc.imageUrl ? `${base}${doc.imageUrl.replace(/^\//, '')}` : undefined,
+        }));
         setLevel(data);
         setLoading(false);
       })
