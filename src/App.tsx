@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useLevel } from './hooks/useLevel';
 import { useValidation } from './hooks/useValidation';
 import { useUndoRedo } from './hooks/useUndoRedo';
 import { useTheme } from './hooks/useTheme';
+import { useCompletedLevels } from './hooks/useCompletedLevels';
 import { DocumentViewer } from './components/DocumentViewer';
 import { FamilyTree } from './components/FamilyTree';
 import { ProgressBar } from './components/ProgressBar';
@@ -20,6 +21,7 @@ function App() {
   const [showTutorial, setShowTutorial] = useState(false);
   const { state, push, undo, redo, canUndo, canRedo, reset } = useUndoRedo(viewingTree);
   const { theme, setTheme } = useTheme();
+  const { completed, markCompleted } = useCompletedLevels();
 
   const playerCouples = state.couples;
   const playerChildren = state.children;
@@ -30,6 +32,10 @@ function App() {
     playerChildren,
     level?.solutionEncoded ?? null
   );
+
+  useEffect(() => {
+    if (isWin && selectedLevelId) markCompleted(selectedLevelId);
+  }, [isWin, selectedLevelId, markCompleted]);
 
   const handleAddCouple = useCallback((couple: CoupleRelationship) => {
     const existing = playerCouples.find(
@@ -97,7 +103,7 @@ function App() {
   }, [reset]);
 
   if (!selectedLevelId) {
-    return <LevelSelect onSelectLevel={setSelectedLevelId} theme={theme} setTheme={setTheme} />;
+    return <LevelSelect onSelectLevel={setSelectedLevelId} theme={theme} setTheme={setTheme} completedLevels={completed} />;
   }
 
   if (loading) {

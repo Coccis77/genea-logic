@@ -44,6 +44,8 @@
   --scrollbar-thumb: rgba(255,255,255,0.2);
   --scrollbar-track: rgba(255,255,255,0.05);
   --color-grid-dots: #5c4a35;
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.3);
+  --badge-text: #fff;
   /* Documents */
   --doc-paper-bg: #faf6e8;
   --doc-paper-mid: #f0e8d0;
@@ -107,6 +109,8 @@
   --scrollbar-thumb: rgba(0,0,0,0.15);
   --scrollbar-track: rgba(0,0,0,0.05);
   --color-grid-dots: #c8b898;
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.1);
+  --badge-text: #fff;
   /* Documents */
   --doc-paper-bg: #fffcf0;
   --doc-paper-mid: #f8f0d8;
@@ -170,6 +174,8 @@
   --scrollbar-thumb: rgba(255,255,255,0.2);
   --scrollbar-track: rgba(255,255,255,0.05);
   --color-grid-dots: #2d3a50;
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.35);
+  --badge-text: #fff;
   /* Documents */
   --doc-paper-bg: #f0f2f8;
   --doc-paper-mid: #e4e8f0;
@@ -233,6 +239,8 @@
   --scrollbar-thumb: rgba(255,255,255,0.2);
   --scrollbar-track: rgba(255,255,255,0.05);
   --color-grid-dots: #4a3830;
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.3);
+  --badge-text: #fff;
   /* Documents */
   --doc-paper-bg: #f8f0dc;
   --doc-paper-mid: #f0e4c8;
@@ -288,7 +296,7 @@
   --color-remove: #ef4444;
   --color-remove-glow: rgba(239,68,68,0.4);
   --color-male: #2563eb;
-  --color-female: #dc2626;
+  --color-female: #e05587;
   /* UI chrome */
   --paper-bg: #ffffff;
   --paper-text: #1e293b;
@@ -296,6 +304,8 @@
   --scrollbar-thumb: rgba(0,0,0,0.15);
   --scrollbar-track: rgba(0,0,0,0.05);
   --color-grid-dots: #b0bcc8;
+  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08);
+  --badge-text: #fff;
   /* Documents */
   --doc-paper-bg: #f8f9fc;
   --doc-paper-mid: #f0f2f6;

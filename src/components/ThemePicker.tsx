@@ -26,16 +26,21 @@ export function ThemePicker({ theme, setTheme, variant = 'dropdown' }: ThemePick
   const swatches = themes.map((t) => (
     <button
       key={t.id}
-      className={`theme-swatch ${theme === t.id ? 'theme-swatch-active' : ''}`}
-      style={{
-        background: `linear-gradient(135deg, ${t.bg} 50%, ${t.accent} 50%)`,
-      }}
+      className={`theme-swatch-btn ${theme === t.id ? 'theme-swatch-active' : ''}`}
       onClick={() => {
         setTheme(t.id);
         setOpen(false);
       }}
       title={t.label}
-    />
+    >
+      <span
+        className="theme-swatch"
+        style={{
+          background: `linear-gradient(135deg, ${t.bg} 50%, ${t.accent} 50%)`,
+        }}
+      />
+      <span className="theme-swatch-label">{t.label}</span>
+    </button>
   ));
 
   if (variant === 'inline') {

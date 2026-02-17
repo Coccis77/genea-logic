@@ -60,21 +60,30 @@ function DocumentMedia({ doc, audioBlobUrl, audioLoading, imageBlobUrl, imageLoa
 
 export function DocumentViewer({ documents }: DocumentViewerProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [readIds, setReadIds] = useState<Set<string>>(new Set());
   const selectedDoc = documents.find((d) => d.id === selectedId);
   const { blobUrl: audioBlobUrl, loading: audioLoading } = useMediaCache(selectedDoc?.audioUrl);
   const { blobUrl: imageBlobUrl, loading: imageLoading } = useMediaCache(selectedDoc?.imageUrl);
 
   return (
     <div className="document-viewer">
-      <h2 className="document-viewer-title">Documents & Clues</h2>
+      <h2 className="document-viewer-title">
+        Documents & Clues
+        <span className="document-read-count">{readIds.size}/{documents.length}</span>
+      </h2>
       <div className="document-list">
         {documents.map((doc) => {
           const isSelected = selectedId === doc.id;
+          const isRead = readIds.has(doc.id);
           return (
             <div key={doc.id}>
               <button
-                className={`document-item ${isSelected ? 'active' : ''}`}
-                onClick={() => setSelectedId(isSelected ? null : doc.id)}
+                className={`document-item ${isSelected ? 'active' : ''} ${isRead && !isSelected ? 'document-read' : ''}`}
+                onClick={() => {
+                  const nextId = isSelected ? null : doc.id;
+                  setSelectedId(nextId);
+                  if (nextId) setReadIds((prev) => new Set(prev).add(nextId));
+                }}
               >
                 <span className="document-type-badge">
                   <span className="document-icon">{typeIcons[doc.type] ?? ''}</span>

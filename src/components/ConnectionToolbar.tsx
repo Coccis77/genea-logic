@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import type { ConnectionMode } from '../types/level';
 
 interface ConnectionToolbarProps {
@@ -19,6 +20,24 @@ const modes: { mode: ConnectionMode; label: string; arrow?: string; color?: stri
 ];
 
 export function ConnectionToolbar({ mode, onModeChange, onRemoveAll, removeAllDisabled }: ConnectionToolbarProps) {
+  const [armed, setArmed] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, []);
+
+  const handleRemoveAll = () => {
+    if (!armed) {
+      setArmed(true);
+      timerRef.current = setTimeout(() => setArmed(false), 3000);
+    } else {
+      setArmed(false);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      onRemoveAll();
+    }
+  };
+
   return (
     <div className="connection-toolbar">
       {modes.map((m) => (
@@ -36,14 +55,15 @@ export function ConnectionToolbar({ mode, onModeChange, onRemoveAll, removeAllDi
           <span>{m.label}</span>
         </button>
       ))}
+      <div className="toolbar-divider" />
       <button
-        className="toolbar-btn remove-all-btn"
-        onClick={onRemoveAll}
+        className={`toolbar-btn remove-all-btn ${armed ? 'remove-all-armed' : ''}`}
+        onClick={handleRemoveAll}
         disabled={removeAllDisabled}
         title="Remove all relationships"
       >
         <span className="toolbar-arrow" style={{ color: 'var(--color-remove)' }}>{'\u2715'}</span>
-        <span>Remove all</span>
+        <span>{armed ? 'Confirm?' : 'Remove all'}</span>
       </button>
     </div>
   );
