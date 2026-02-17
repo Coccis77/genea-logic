@@ -9,19 +9,19 @@
       "id": "doc_newspaper_harry",
       "type": "newspaper",
       "title": "Harry Lewis, the businessman of the century",
-      "content": "September 9th, 1955\n\nHARRY LEWIS, THE BUSINESSMAN OF THE CENTURY\n\nIn 1945, Harry Lewis started to invest on several industry. And it paid off! With an initial amount of $25,000, he is now one of the richest man of the world, with an estimated $1 billion net worth.\n\nHis private life is also wonderful. He married the beautiful Lisa Williams, his highschool sweetheart, in 1942, before going to war."
+      "content": "September 9th, 1955\n\nHARRY LEWIS, THE BUSINESSMAN OF THE CENTURY\n\nIn 1945, Harry Lewis started to invest on several industries. And it paid off! With an initial amount of $25000, he is now one of the richest man in the world, with an estimated $1 billion net worth.\n\nHis private life is also a success story. He married the beautiful Lisa Williams, his high school sweetheart, in 1942, before going to war."
     },
     {
       "id": "doc_phone_louise",
       "type": "audio",
       "title": "Phone call retranscription — Louise & her mother",
-      "content": "Retranscription of a recorded phone call\nDate: March 10th, 1976\nParties: Louise, her mother\n\n[...]\nMum, it's the hundredth time I tell you, Ben and I will never get married, it's just not in our life plan...\n[...]\nWe will celebrate the twin's birthday this Saturday, don't be late. James will also be there of course. Annie? No, she's not part of the family.\n[...]"
+      "content": "Retranscription of a recorded phone call\nDate: March 10th, 1976\nParties: Louise, her mother\n\n[...]\nMum, it's the hundredth time I tell you, Ben and I will never get married, it's just not in our life plan...\n[...]\nWe will celebrate the twin's birthday this Saturday, don't be late. James? He will also be there of course. Annie? No, she's not part of the family.\n[...]"
     },
     {
       "id": "doc_phone_henry",
       "type": "audio",
       "title": "Phone call retranscription — Henry to Jane",
-      "audioUrl": "/media/level_01/001.mp3",
+      "audioUrl": "/media/level_01/henry.mp3",
       "content": "Retranscription of a recorded phone call\nDate: November 3rd, 1990\nParties: Henry, Jane\n\n[...]\nJane, it's your turn to have James this week. You're late again.\n[...]"
     },
     {
@@ -40,40 +40,39 @@
       "id": "doc_letter_jules",
       "type": "other",
       "title": "Letter from Jules to Laura",
-      "content": "February 8th, 1977\n\nLaura,\n\nI love you but I just can't stay with you. I want to build a family, raise kids, and you can't provide me that. I will always remember those 8 years together. Farewell.\n\nJules"
+      "content": "February 8th, 1977\n\nLaura,\n\nI love you but I can't stay. I want to build a family, raise kids, and you can't provide me that. I will always remember those 8 years together. Farewell.\n\nJules"
     },
     {
       "id": "doc_diary_lisa_w",
       "type": "other",
       "title": "Page from Lisa Williams' diary",
-      "content": "June 10th, 1946\n\nWe discussed again about the name of the baby. We don't know yet the gender, but we came with a fun agreement. If it's a boy, we will find a name starting with H. If it's a girl, it will be with an L."
+      "content": "June 10th, 1946\n\nWe discussed again about the name of the baby. We don't know the gender yet, but we came with a fun agreement. If it's a boy, it will start with H. If it's a girl, an L."
     },
     {
       "id": "doc_photo_lisas",
       "type": "photo",
       "title": "Lisa & Lisa Williams",
-      "imageUrl": "/media/level_01/001.png",
-      "content": "Mum, we named our daughter after you... Her name is Lisa"
+      "imageUrl": "/media/level_01/001.jpg",
+      "content": "Mum, we named our daughter after you... Her name is Lisa."
     },
     {
       "id": "doc_audio_marie",
       "type": "audio",
       "title": "Audio recording — Marie Martin, age 5",
-      "content": "Retranscription of a home recording\n\nMaman, where is my dad? At school, all my friends have a dad. I want to have a dad too!"
+      "content": "Retranscription of a home recording\n\nMaman, where is my dad? At school, all my friends have a dad. They all mock me for not having one. I want to have a dad too!"
     },
     {
       "id": "doc_check_jack",
       "type": "photo",
       "title": "Bank check from Jack D. to Harry Lewis",
-      "imageUrl": "/media/level_01/001.png",
-      "content": "Here is $25 000. Take it and don't talk to Sophie ever. Get out of her life."
+      "imageUrl": "/media/level_01/002.png",
+      "content": "Here is $25000. Take it and don't talk to Sophie ever. Get out of her life, she is mine."
     },
     {
       "id": "doc_photo_birthday",
-      "type": "photo",
-      "title": "Birthday party photograph",
-      "imageUrl": "/media/level_01/001.png",
-      "content": "Sophie: John, Tom, Marie, come here please. Ann is waiting for you. She wants to blow the candles out."
+      "type": "audio",
+      "title": "Audio recording — Ann's birthday party",
+      "content": "Retranscription of a home recording\n\n[Background chatter and children laughing]\nJohn, Tom, Marie, come here please. Ann is waiting for you. She wants to blow the candles out."
     }
   ],
 
@@ -81,21 +80,21 @@
     {
       "id": "jack",
       "displayName": "Jack D",
-      "knownFacts": ["male"],
+      "knownFacts": ["male", "businessman", "alcool industry", "born in 1905"],
       "position": { "x": 560, "y": 280 },
       "gender": "male"
     },
     {
       "id": "sophie",
       "displayName": "Sophie Martin",
-      "knownFacts": ["female"],
+      "knownFacts": ["female", "born in 1920", "died in 1998"],
       "position": { "x": 70, "y": 290 },
       "gender": "female"
     },
     {
       "id": "harry",
       "displayName": "Harry Lewis",
-      "knownFacts": ["male"],
+      "knownFacts": ["male", "businessman", "born in 1919", "died in 1999"],
       "position": { "x": 530, "y": 60 },
       "gender": "male"
     },

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { Document } from '../types/level';
 import { useMediaCache } from '../hooks/useMediaCache';
 
@@ -26,12 +27,13 @@ const typeIcons: Record<string, string> = {
   other: '\u{1F4C4}',
 };
 
-function DocumentMedia({ doc, audioBlobUrl, audioLoading, imageBlobUrl, imageLoading }: {
+function DocumentMedia({ doc, audioBlobUrl, audioLoading, imageBlobUrl, imageLoading, onImageClick }: {
   doc: Document;
   audioBlobUrl?: string;
   audioLoading: boolean;
   imageBlobUrl?: string;
   imageLoading: boolean;
+  onImageClick?: (src: string) => void;
 }) {
   const hasMedia = doc.imageUrl || doc.audioUrl;
   if (!hasMedia && !doc.content) return null;
@@ -43,7 +45,12 @@ function DocumentMedia({ doc, audioBlobUrl, audioLoading, imageBlobUrl, imageLoa
         imageLoading ? (
           <p className="media-loading">Loading image...</p>
         ) : imageBlobUrl ? (
-          <img className="media-photo-image" src={imageBlobUrl} alt={doc.title} />
+          <img
+            className="media-photo-image"
+            src={imageBlobUrl}
+            alt={doc.title}
+            onClick={() => onImageClick?.(imageBlobUrl)}
+          />
         ) : null
       )}
       {doc.audioUrl && (
@@ -61,6 +68,7 @@ function DocumentMedia({ doc, audioBlobUrl, audioLoading, imageBlobUrl, imageLoa
 export function DocumentViewer({ documents }: DocumentViewerProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [readIds, setReadIds] = useState<Set<string>>(new Set());
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const selectedDoc = documents.find((d) => d.id === selectedId);
   const { blobUrl: audioBlobUrl, loading: audioLoading } = useMediaCache(selectedDoc?.audioUrl);
   const { blobUrl: imageBlobUrl, loading: imageLoading } = useMediaCache(selectedDoc?.imageUrl);
@@ -103,6 +111,7 @@ export function DocumentViewer({ documents }: DocumentViewerProps) {
                     audioLoading={audioLoading}
                     imageBlobUrl={imageBlobUrl}
                     imageLoading={imageLoading}
+                    onImageClick={setLightboxSrc}
                   />
                 </div>
               )}
@@ -110,6 +119,18 @@ export function DocumentViewer({ documents }: DocumentViewerProps) {
           );
         })}
       </div>
+      {lightboxSrc && createPortal(
+        <div className="lightbox-overlay" onClick={() => setLightboxSrc(null)}>
+          <button className="lightbox-close" onClick={() => setLightboxSrc(null)}>&times;</button>
+          <img
+            className="lightbox-image"
+            src={lightboxSrc}
+            alt=""
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>,
+        document.body
+      )}
     </div>
   );
 }

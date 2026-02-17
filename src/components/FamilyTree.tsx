@@ -163,18 +163,32 @@ export function FamilyTree({
   }, []);
 
   // Derive union nodes from couples + person positions
+  const UNION_SIZE = 22;
   const unionNodes: Node<UnionNodeData>[] = useMemo(() => {
     return couples
       .map((couple) => {
         const p1 = personNodes.find((n) => n.id === couple.person1Id);
         const p2 = personNodes.find((n) => n.id === couple.person2Id);
         if (!p1 || !p2) return null;
+        const p1w = p1.width ?? 120;
+        const p2w = p2.width ?? 120;
+        const p1h = p1.height ?? 60;
+        const p2h = p2.height ?? 60;
+        // Center between the inner edges (the gap between nodes)
+        const left = p1.position.x < p2.position.x ? p1 : p2;
+        const right = p1.position.x < p2.position.x ? p2 : p1;
+        const leftW = left === p1 ? p1w : p2w;
+        const rightEdgeStart = left.position.x + leftW;
+        const rightEdgeEnd = right.position.x;
+        const midX = (rightEdgeStart + rightEdgeEnd) / 2 - UNION_SIZE / 2;
+        const p1bottom = p1.position.y + p1h;
+        const p2bottom = p2.position.y + p2h;
         return {
           id: `union_${couple.id}`,
           type: 'union' as const,
           position: {
-            x: (p1.position.x + p2.position.x) / 2 + 55,
-            y: Math.max(p1.position.y, p2.position.y) + 75,
+            x: midX,
+            y: Math.max(p1bottom, p2bottom) + 15,
           },
           data: {
             coupleId: couple.id,
