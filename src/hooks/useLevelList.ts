@@ -12,7 +12,7 @@ export function useLevelList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/levels/index.json')
+    fetch(`${import.meta.env.BASE_URL}levels/index.json`)
       .then((res) => res.json())
       .then((data: LevelInfo[]) => {
         setLevels(data);

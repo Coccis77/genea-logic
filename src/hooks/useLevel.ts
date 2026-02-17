@@ -22,7 +22,7 @@ export function useLevel(levelId: string): UseLevelReturn {
     setLoading(true);
     setError(null);
 
-    fetch(`/levels/${levelId}.json`)
+    fetch(`${import.meta.env.BASE_URL}levels/${levelId}.json`)
       .then((res) => {
         if (!res.ok) throw new Error(`Failed to load level: ${res.status}`);
         return res.json();
