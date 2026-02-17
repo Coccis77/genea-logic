@@ -1,21 +1,6 @@
 import type { Theme } from '../hooks/useTheme';
+import type { LevelInfo } from '../hooks/useLevelList';
 import { ThemePicker } from './ThemePicker';
-
-interface LevelInfo {
-  id: string;
-  title: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  timeframe: string;
-}
-
-const levels: LevelInfo[] = [
-  {
-    id: 'level_01',
-    title: 'The Miller Family Mystery',
-    difficulty: 'easy',
-    timeframe: '1920\u20131960',
-  },
-];
 
 const difficultyColors: Record<string, string> = {
   easy: 'var(--accent-green)',
@@ -24,13 +9,14 @@ const difficultyColors: Record<string, string> = {
 };
 
 interface LevelSelectProps {
+  levels: LevelInfo[];
   onSelectLevel: (levelId: string) => void;
   theme: Theme;
   setTheme: (t: Theme) => void;
   completedLevels: Set<string>;
 }
 
-export function LevelSelect({ onSelectLevel, theme, setTheme, completedLevels }: LevelSelectProps) {
+export function LevelSelect({ levels, onSelectLevel, theme, setTheme, completedLevels }: LevelSelectProps) {
   return (
     <div className="level-select">
       <h1 className="game-title">Genea-Logic</h1>

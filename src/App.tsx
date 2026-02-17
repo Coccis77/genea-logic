@@ -4,6 +4,7 @@ import { useValidation } from './hooks/useValidation';
 import { useUndoRedo } from './hooks/useUndoRedo';
 import { useTheme } from './hooks/useTheme';
 import { useCompletedLevels } from './hooks/useCompletedLevels';
+import { useLevelList } from './hooks/useLevelList';
 import { DocumentViewer } from './components/DocumentViewer';
 import { FamilyTree } from './components/FamilyTree';
 import { ProgressBar } from './components/ProgressBar';
@@ -22,6 +23,7 @@ function App() {
   const { state, push, undo, redo, canUndo, canRedo, reset } = useUndoRedo(viewingTree);
   const { theme, setTheme } = useTheme();
   const { completed, markCompleted } = useCompletedLevels();
+  const { levels } = useLevelList();
 
   const playerCouples = state.couples;
   const playerChildren = state.children;
@@ -103,7 +105,7 @@ function App() {
   }, [reset]);
 
   if (!selectedLevelId) {
-    return <LevelSelect onSelectLevel={setSelectedLevelId} theme={theme} setTheme={setTheme} completedLevels={completed} />;
+    return <LevelSelect levels={levels} onSelectLevel={setSelectedLevelId} theme={theme} setTheme={setTheme} completedLevels={completed} />;
   }
 
   if (loading) {

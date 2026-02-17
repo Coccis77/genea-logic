@@ -1,10 +1,47 @@
 {
   "levelId": "level_01",
-  "title": "The Miller Family Mystery",
+  "title": "The wealth of Harry Lewis",
   "difficulty": "easy",
   "timeframe": "1920-1960",
 
-  "documents": [],
+  "documents": [
+    {
+      "id": "doc_phone_louise",
+      "type": "audio",
+      "title": "Phone call retranscription — Louise & her mother",
+      "content": "Retranscription of a recorded phone call\nDate: March 10th, 1976\nParties: Louise, her mother\n\n[...]\nMum, it's the hundredth time I tell you, Ben and I will never marry, it's just not in our life plan...\n[...]\nWe will celebrate the twin's birthday this Saturday, don't be late. James will also be there of course. Annie? No, she's not part of the family.\n[...]"
+    },
+    {
+      "id": "doc_phone_henry",
+      "type": "audio",
+      "title": "Phone call retranscription — Henry to Jane",
+      "content": "Retranscription of a recorded phone call\nDate: November 3rd, 1990\nParties: Henry, Jane\n\n[...]\nJane, it's your turn to have James this week. You're late again.\n[...]"
+    },
+    {
+      "id": "doc_letter_lisa",
+      "type": "other",
+      "title": "Torn letter from Lisa Williams to her friend Sarah",
+      "content": "[The letter is partially ripped — only one section is readable]\n\n...About Lucy... we don't have much news, for 10 years now. She has never answered our calls, no letter, nothing... She never needed anyone, nor our money..."
+    },
+    {
+      "id": "doc_marriage_jack_sophie",
+      "type": "marriage_certificate",
+      "title": "Marriage of Jack Daniel & Sophie Martin",
+      "content": "CERTIFICATE OF MARRIAGE\n\nThis is to certify that\n\n    Jack Daniel\n    and\n    Sophie Martin\n\nwere united in marriage on the 5th day of August, 1950\nat the County Clerk's Office, Millfield."
+    },
+    {
+      "id": "doc_letter_jules",
+      "type": "other",
+      "title": "Letter from Jules to Laura",
+      "content": "February 8th, 1977\n\nLaura,\n\nI love you but I just can't stay with you. I want to build a family, raise kids, and you can't provide me that. I will always remember those 8 years together. Farewell.\n\nJules"
+    },
+    {
+      "id": "doc_diary_lisa_w",
+      "type": "other",
+      "title": "Page from Lisa Williams' diary",
+      "content": "June 10th, 1946\n\nWe discussed again about the name of the baby. We don't know yet the gender, but we came with a fun agreement. If it's a boy, we will find a name starting with H. If it's a girl, it will be with an L."
+    }
+  ],
 
   "initialPeople": [
     {
